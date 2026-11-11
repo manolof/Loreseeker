@@ -91,7 +91,8 @@ function D:Report(text)
   end
   ctx.upcoming = upcoming
   push(store().reports, ctx, MAX_REPORTS)
-  LW:Print("Bug report saved. /reload (or log out) to write it to disk.")
+  LW:Print("Bug report saved. Type /reload to write it to disk, then report it at " .. LW.ISSUES ..
+    " and attach WTF/Account/<account>/SavedVariables/Lorewalker.lua")
 end
 
 function D:Clear()

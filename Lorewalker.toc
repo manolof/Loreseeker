@@ -4,6 +4,7 @@
 ## Version: 0.2.0
 ## IconTexture: Interface\Icons\INV_Misc_Book_11
 ## Author: manolof
+## X-Website: https://github.com/manolof/Lorewalker
 ## X-License: GPLv3
 ## Category-enUS: Quests
 ## Dependencies: QuestieDB, Questie

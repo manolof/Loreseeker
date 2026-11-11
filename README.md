@@ -35,6 +35,10 @@ Lorewalker is not a hand-written route. It reads the full quest database (via Qu
 | `/lw step`, `/lw arrow` | Show or hide the step panel or the arrow |
 | `/lw rebuild` | Rebuild the quest index (normally automatic) |
 
+## Bug reports and ideas
+
+Please use [GitHub Issues](https://github.com/manolof/Lorewalker/issues). In game, type `/lw bug what happened`, then `/reload`, and attach `WTF/Account/<account>/SavedVariables/Lorewalker.lua` to the report.
+
 ## Privacy
 
 Everything stays on your computer. Lorewalker sends nothing anywhere. Its diagnostics (errors and a short log of what it decided) are saved only in your own `SavedVariables`, to help with bug reports.

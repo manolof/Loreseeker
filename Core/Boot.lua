@@ -197,7 +197,7 @@ local HELP = {
   "/lw step | arrow - toggle the step panel / arrow",
   "/lw status - counts",
   "/lw quest <id> - why a quest has its status",
-  "/lw bug <what happened> - save a bug report with your situation",
+  "/lw bug <what happened> - save a bug report with your situation (then report at " .. LW.ISSUES .. ")",
   "/lw plan - print the planned trip, stop by stop",
   "/lw travel - flight points Lorewalker thinks you know, and the plan for the current step",
   "/lw voice [questId] - test voice-over step by step (default: current step)",

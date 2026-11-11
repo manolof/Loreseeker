@@ -1,0 +1,14 @@
+name: Idea or wish
+description: A feature you'd like, or a storyline that should be on the notable list.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why? (what would it help you do)

@@ -5,6 +5,7 @@ Lorewalker = LW -- global for /dump debugging
 local GetMeta = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
 LW.name = ADDON
 LW.version = GetMeta and GetMeta(ADDON, "Version") or "?"
+LW.ISSUES = "github.com/manolof/Lorewalker/issues"
 
 ---------------------------------------------------------------------------------------------
 -- Settings

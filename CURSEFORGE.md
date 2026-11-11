@@ -43,8 +43,13 @@ It isn't a hand-written route. Lorewalker reads the full quest database through 
 ### Privacy
 Everything stays on your computer: Lorewalker never sends anything anywhere.
 
-### Feedback
-Found a quest it gets wrong? Type `/lw bug what happened`, then `/reload`, and attach the `Lorewalker.lua` file from `WTF/Account/<account>/SavedVariables` to your report.
+### Bug reports and ideas
+Please report on **GitHub Issues: https://github.com/manolof/Lorewalker/issues** (the form tells you exactly what to include).
+In game, type `/lw bug what happened`, then `/reload`, and attach the `Lorewalker.lua` file from `WTF/Account/<account>/SavedVariables`.
+
+## Project links (CurseForge project settings)
+- Issues: https://github.com/manolof/Lorewalker/issues
+- Source: https://github.com/manolof/Lorewalker
 
 ## Screenshots to take in game (1920x1080 or larger, UI scale normal)
 1. **Step panel and arrow** in a busy quest hub, with a quest that has a storyline line ("Story: ... 3/7").

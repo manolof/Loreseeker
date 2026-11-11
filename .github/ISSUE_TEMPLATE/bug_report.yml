@@ -1,0 +1,50 @@
+name: Bug report
+description: Something in Lorewalker is wrong (an error, a wrong step, a quest it gets wrong).
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The quickest way to a fix:
+        1. In game, right when it happens, type `/lw bug what happened` (for example `/lw bug arrow points to the wrong NPC`).
+        2. Type `/reload` (or log out). This writes the report to disk.
+        3. Attach the file `WTF/Account/<your account>/SavedVariables/Lorewalker.lua` below (drag it into the box).
+           It contains only Lorewalker's own log and your situation (level, zone, current step). Open it first if you want to check.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did Lorewalker do, and what did you expect?
+      placeholder: "It told me to pick up X from Y, but Y doesn't offer it."
+    validations:
+      required: true
+  - type: input
+    id: quest
+    attributes:
+      label: Quest name or ID (if it is about a quest)
+      description: "`/lw quest <id>` shows the ID-based explanation; paste its output below if you can."
+  - type: textarea
+    id: lwquest
+    attributes:
+      label: Output of /lw quest <id> (optional)
+      render: text
+  - type: input
+    id: where
+    attributes:
+      label: Character (race, class, level) and zone
+      placeholder: "Dwarf Hunter 26, Wetlands"
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Lorewalker, Questie and QuestieDB versions (shown in the AddOns list on the character screen).
+      placeholder: "Lorewalker 0.2.0, Questie 12.6.4, QuestieDB 1.0.13"
+    validations:
+      required: true
+  - type: textarea
+    id: file
+    attributes:
+      label: Lorewalker.lua (SavedVariables)
+      description: Drag and drop the file here.
