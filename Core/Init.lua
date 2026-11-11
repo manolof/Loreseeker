@@ -30,6 +30,7 @@ LW.defaults = {
   useTravel = true,  -- route by travel time (flight paths, boats, tram) instead of straight lines
   showArrow = true,
   showStep = true,
+  notify = true,     -- announce automatic decisions on screen (always also in chat)
   pvpZones = {},     -- [areaId] = true : contested zones skipped by the PvP preset
 }
 
@@ -74,6 +75,15 @@ function LW:Print(...)
   local parts = { ... }
   for i = 1, select("#", ...) do parts[i] = tostring(parts[i]) end
   DEFAULT_CHAT_FRAME:AddMessage(NORMAL_FONT_COLOR_CODE .. "Loreseeker:|r " .. table.concat(parts, " "))
+end
+
+--- Announce something Loreseeker decided on its own: always in chat, and (option, on by
+--- default) in the stock yellow message area at the top of the screen.
+function LW:Notify(text)
+  self:Print(text)
+  if self.db and self.db.notify and UIErrorsFrame and UIErrorsFrame.AddMessage then
+    UIErrorsFrame:AddMessage("Loreseeker: " .. text, 1.0, 0.82, 0.0, 1.0)
+  end
 end
 
 ---------------------------------------------------------------------------------------------

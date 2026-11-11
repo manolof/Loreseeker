@@ -30,6 +30,7 @@ LW:AddTranslations("zhTW", {
   ["/lore quest <id> - why a quest has its status"] = "",
   ["/lore bug <what happened> - save a bug report with your situation (then report at %s)"] = "",
   ["/lore plan - print the planned trip, stop by stop"] = "",
+  ["/lore probe - what the game tells addons about your target (testing quest-giver detection)"] = "",
   ["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"] = "",
   ["/lore voice [questId] - test voice-over step by step (default: current step)"] = "",
   ["/lore check - curated storylines not found for this character"] = "",
@@ -57,6 +58,8 @@ LW:AddTranslations("zhTW", {
   ["Seasonal event quests"] = "",
   ["Battleground quests"] = "",
   -- Interface: Engine/Offers.lua
+  ["[%s] is back on your route."] = "",
+  ["[%s] is offered again, so it is back on your route."] = "",
   ["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."] = "",
   ["This NPC"] = "",
   -- Interface: Engine/Skips.lua
@@ -193,6 +196,7 @@ LW:AddTranslations("zhTW", {
   ["Plan the trip ahead (up to 16 steps) instead of one step at a time"] = "",
   ["Display"] = "",
   ["Show the step panel"] = "",
+  ["Show notifications at the top of the screen when Loreseeker decides something on its own"] = "",
   ["Show the waypoint arrow"] = "",
   ["PvP server: skip contested zones"] = "",
   ["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."] = "",

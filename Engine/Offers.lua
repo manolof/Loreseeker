@@ -66,6 +66,8 @@ LW:OnEvent("QUEST_ACCEPTED", function(_, a, b)
   if LW.char and LW.char.notOffered[qid] then
     LW.char.notOffered[qid] = nil
     LW:Log("offers", "%d was accepted after all: cleared", qid)
+    local e = LW.Index:Get(qid)
+    if e then LW:Notify(string.format(L["[%s] is back on your route."], e.name)) end
   end
 end)
 
@@ -87,12 +89,15 @@ local function check(event)
           notOffered()[qid] = nil
           changed = true
           LW:Log("offers", "%d %s is offered again by npc %d", qid, e.name, npc)
+          LW:Notify(string.format(L["[%s] is offered again, so it is back on your route."], e.name))
         end
       elseif (status == "now" or status == "group") and event ~= "QUEST_DETAIL" and not isTrivial(e)
         and not haveQuest(qid) and not LW.Adapter:IsCompleted(qid) then
         notOffered()[qid] = { npc = npc, level = UnitLevel("player"), t = time() }
         changed = true
         LW:Log("offers", "%d %s NOT offered by npc %d at level %d (database says available)", qid, e.name, npc, UnitLevel("player"))
+        LW:Notify(string.format(L["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."],
+          LibQuestieDB.Npc.Get(npc, "name") or L["This NPC"], e.name))
       end
     end
   end
@@ -165,7 +170,7 @@ LW:OnEvent("PLAYER_TARGET_CHANGED", function()
     if watch.sawDialog or (status ~= "now" and status ~= "group") or targetNpcId() ~= npc or haveQuest(e.id) then return end
     notOffered()[e.id] = { npc = npc, level = UnitLevel("player"), t = time() }
     LW:Log("offers", "%d %s NOT offered by npc %d (targeted, standing next to it, no quest dialog)", e.id, e.name, npc)
-    LW:Print(string.format(L["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."],
+    LW:Notify(string.format(L["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."],
       LibQuestieDB.Npc.Get(npc, "name") or L["This NPC"], e.name))
     LW:RequestRefresh("offers")
     LW:Fire("SKIPS_CHANGED")
@@ -173,6 +178,45 @@ LW:OnEvent("PLAYER_TARGET_CHANGED", function()
 end)
 for _, ev in ipairs({ "QUEST_DETAIL", "QUEST_ACCEPTED" }) do
   LW:OnEvent(ev, function() if watching then watching.sawDialog = true end end)
+end
+
+--- `/lore probe`: everything an addon can learn about the target from a distance, to find out
+--- whether this client exposes quest-giver status anywhere ("!" above the head).
+function O:Probe()
+  local say = function(...) LW:Print("|cffffffff[probe]|r", ...) end
+  local guid = LW.NotSecret(UnitGUID("target"))
+  if not guid then return say("Target an NPC first.") end
+  local npc = targetNpcId()
+  say("target", tostring(UnitName("target")), "guid", guid)
+  for _, fn in ipairs({ "UnitIsQuestGiver", "UnitIsQuestBoss" }) do
+    local f = rawget(_G, fn)
+    if f then
+      local ok, v = pcall(f, "target")
+      say(fn, tostring(ok and v))
+    else
+      say(fn, "not available")
+    end
+  end
+  if C_TooltipInfo and C_TooltipInfo.GetUnit then
+    local ok, data = pcall(C_TooltipInfo.GetUnit, "target")
+    if ok and data and data.lines then
+      for i, line in ipairs(data.lines) do
+        say("tooltip line", i, "type", tostring(line.type), tostring(LW.NotSecret(line.leftText)))
+      end
+    else
+      say("C_TooltipInfo.GetUnit: nothing")
+    end
+  else
+    say("C_TooltipInfo: not available on this client")
+  end
+  if npc then
+    local starts = LibQuestieDB.Npc.Get(npc, "questStarts") or {}
+    local list = {}
+    for _, q in ipairs(starts) do
+      if LW.Index:Get(q) then list[#list + 1] = q .. "=" .. tostring(LW.Eligibility:Status(q)) end
+    end
+    say("database: npc", npc, "gives", #starts, "quests; for you:", table.concat(list, ", "))
+  end
 end
 
 for _, ev in ipairs({ "GOSSIP_SHOW", "QUEST_GREETING" }) do

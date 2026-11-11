@@ -5,6 +5,8 @@
 - Works on every client language: storylines are matched by quest ID, the flight map is read by position, and zone and storyline names come from the game where possible
 - Buttons and the step panel grow to fit longer words in other languages
 - New command name /lore (/lw still works)
+- On-screen notifications when Loreseeker decides something by itself (e.g. an NPC doesn't offer a quest); can be turned off in Options
+- /lore probe: shows what the game tells addons about your target
 
 ## 0.2.1
 - First release on CurseForge (no gameplay changes from 0.2.0)

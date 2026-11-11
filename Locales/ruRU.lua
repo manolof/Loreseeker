@@ -30,6 +30,7 @@ LW:AddTranslations("ruRU", {
   ["/lore quest <id> - why a quest has its status"] = "/lore quest <id> - почему у задания такой статус",
   ["/lore bug <what happened> - save a bug report with your situation (then report at %s)"] = "/lore bug <что случилось> - сохранить отчёт об ошибке с вашей ситуацией (затем сообщить на %s)",
   ["/lore plan - print the planned trip, stop by stop"] = "/lore plan - вывести запланированный маршрут по остановкам",
+  ["/lore probe - what the game tells addons about your target (testing quest-giver detection)"] = "/lore probe - что игра сообщает аддонам о вашей цели (проверка обнаружения тех, кто выдаёт задания)",
   ["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"] = "/lore travel - точки полёта, которые Loreseeker считает известными, и план для текущего шага",
   ["/lore voice [questId] - test voice-over step by step (default: current step)"] = "/lore voice [questId] - пошаговая проверка озвучки (по умолчанию: текущий шаг)",
   ["/lore check - curated storylines not found for this character"] = "/lore check - отобранные сюжеты, не найденные для этого персонажа",
@@ -57,6 +58,8 @@ LW:AddTranslations("ruRU", {
   ["Seasonal event quests"] = "Задания сезонных событий",
   ["Battleground quests"] = "Задания полей боя",
   -- Interface: Engine/Offers.lua
+  ["[%s] is back on your route."] = "[%s] снова в вашем маршруте.",
+  ["[%s] is offered again, so it is back on your route."] = "[%s] снова предлагается и возвращено в ваш маршрут.",
   ["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."] = "Похоже, %s не предлагает [%s]. Перенесено в «Вернуться позже» (нажмите там «Повторить», если это ошибка).",
   ["This NPC"] = "Этот НИП",
   -- Interface: Engine/Skips.lua
@@ -193,6 +196,7 @@ LW:AddTranslations("ruRU", {
   ["Plan the trip ahead (up to 16 steps) instead of one step at a time"] = "Планировать маршрут заранее (до 16 шагов), а не по одному шагу",
   ["Display"] = "Отображение",
   ["Show the step panel"] = "Показывать панель шага",
+  ["Show notifications at the top of the screen when Loreseeker decides something on its own"] = "Показывать уведомления вверху экрана, когда Loreseeker принимает решение сам",
   ["Show the waypoint arrow"] = "Показывать стрелку-указатель",
   ["PvP server: skip contested zones"] = "PvP-сервер: пропускать спорные территории",
   ["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."] = "Отмеченные зоны пропускаются целиком; их задания ждут на вкладке «Вернуться позже». Чтобы пропустить часть зоны, встаньте там и выберите Пропустить... > Пропустить область вокруг меня.",

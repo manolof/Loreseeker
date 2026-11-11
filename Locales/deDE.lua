@@ -30,6 +30,7 @@ LW:AddTranslations("deDE", {
   ["/lore quest <id> - why a quest has its status"] = "/lore quest <id> - warum eine Quest ihren Status hat",
   ["/lore bug <what happened> - save a bug report with your situation (then report at %s)"] = "/lore bug <was passiert ist> - Fehlerbericht mit deiner Situation speichern (dann melden unter %s)",
   ["/lore plan - print the planned trip, stop by stop"] = "/lore plan - geplante Reise ausgeben, Halt für Halt",
+  ["/lore probe - what the game tells addons about your target (testing quest-giver detection)"] = "/lore probe - was das Spiel Addons über dein Ziel verrät (Test der Questgeber-Erkennung)",
   ["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"] = "/lore travel - Flugpunkte, die Loreseeker für bekannt hält, und der Plan für den aktuellen Schritt",
   ["/lore voice [questId] - test voice-over step by step (default: current step)"] = "/lore voice [questId] - Sprachausgabe Schritt für Schritt testen (Standard: aktueller Schritt)",
   ["/lore check - curated storylines not found for this character"] = "/lore check - ausgewählte Handlungsstränge, die für diesen Charakter nicht gefunden wurden",
@@ -57,6 +58,8 @@ LW:AddTranslations("deDE", {
   ["Seasonal event quests"] = "Saisonale Eventquests",
   ["Battleground quests"] = "Schlachtfeldquests",
   -- Interface: Engine/Offers.lua
+  ["[%s] is back on your route."] = "[%s] ist wieder auf deiner Route.",
+  ["[%s] is offered again, so it is back on your route."] = "[%s] wird wieder angeboten und ist zurück auf deiner Route.",
   ["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."] = "%s scheint [%s] nicht anzubieten. In „Später besuchen“ verschoben (dort „Erneut versuchen“ drücken, falls das falsch ist).",
   ["This NPC"] = "Dieser NSC",
   -- Interface: Engine/Skips.lua
@@ -193,6 +196,7 @@ LW:AddTranslations("deDE", {
   ["Plan the trip ahead (up to 16 steps) instead of one step at a time"] = "Die Reise vorausplanen (bis zu 16 Schritte) statt Schritt für Schritt",
   ["Display"] = "Anzeige",
   ["Show the step panel"] = "Schrittanzeige zeigen",
+  ["Show notifications at the top of the screen when Loreseeker decides something on its own"] = "Hinweise oben am Bildschirm zeigen, wenn Loreseeker selbst etwas entscheidet",
   ["Show the waypoint arrow"] = "Wegpunktpfeil zeigen",
   ["PvP server: skip contested zones"] = "PvP-Server: umkämpfte Gebiete überspringen",
   ["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."] = "Markierte Gebiete werden ganz übersprungen; ihre Quests warten im Tab „Später besuchen“. Für einen Teil eines Gebiets stell dich dorthin und nutze Überspringen... > Den Bereich um mich überspringen.",

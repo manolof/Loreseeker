@@ -65,6 +65,8 @@ function tab:Build(panel)
   header(L["Display"])
   place(UI.Check(c, L["Show the step panel"], function() return LW.db.showStep end,
     function(v) LW.db.showStep = v; if v then LW.StepFrame.frame:Show() else LW.StepFrame.frame:Hide() end end))
+  place(UI.Check(c, L["Show notifications at the top of the screen when Loreseeker decides something on its own"],
+    function() return LW.db.notify end, function(v) LW.db.notify = v end))
   place(UI.Check(c, L["Show the waypoint arrow"], function() return LW.db.showArrow end,
     function(v) LW.db.showArrow = v; if v and LW.Arrow.point then LW.Arrow.frame:Show() else LW.Arrow.frame:Hide() end end))
 

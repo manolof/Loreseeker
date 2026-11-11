@@ -30,6 +30,7 @@ LW:AddTranslations("frFR", {
   ["/lore quest <id> - why a quest has its status"] = "/lore quest <id> - pourquoi une quête a ce statut",
   ["/lore bug <what happened> - save a bug report with your situation (then report at %s)"] = "/lore bug <ce qui s'est passé> - enregistrer un rapport de bug avec votre situation (puis le signaler sur %s)",
   ["/lore plan - print the planned trip, stop by stop"] = "/lore plan - afficher le trajet prévu, arrêt par arrêt",
+  ["/lore probe - what the game tells addons about your target (testing quest-giver detection)"] = "/lore probe - ce que le jeu indique aux addons sur votre cible (test de détection des donneurs de quêtes)",
   ["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"] = "/lore travel - les points de vol que Loreseeker pense connus, et le plan pour l'étape actuelle",
   ["/lore voice [questId] - test voice-over step by step (default: current step)"] = "/lore voice [questId] - tester la voix étape par étape (par défaut : étape actuelle)",
   ["/lore check - curated storylines not found for this character"] = "/lore check - histoires sélectionnées introuvables pour ce personnage",
@@ -57,6 +58,8 @@ LW:AddTranslations("frFR", {
   ["Seasonal event quests"] = "Quêtes d'événements saisonniers",
   ["Battleground quests"] = "Quêtes de champ de bataille",
   -- Interface: Engine/Offers.lua
+  ["[%s] is back on your route."] = "[%s] est de retour sur votre itinéraire.",
+  ["[%s] is offered again, so it is back on your route."] = "[%s] est de nouveau proposée, elle revient sur votre itinéraire.",
   ["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."] = "%s ne semble pas proposer [%s]. Déplacée dans « À revoir » (appuyez sur Réessayer si c'est une erreur).",
   ["This NPC"] = "Ce PNJ",
   -- Interface: Engine/Skips.lua
@@ -193,6 +196,7 @@ LW:AddTranslations("frFR", {
   ["Plan the trip ahead (up to 16 steps) instead of one step at a time"] = "Prévoir le trajet à l'avance (jusqu'à 16 étapes) plutôt qu'une étape à la fois",
   ["Display"] = "Affichage",
   ["Show the step panel"] = "Afficher le panneau d'étape",
+  ["Show notifications at the top of the screen when Loreseeker decides something on its own"] = "Afficher des notifications en haut de l'écran quand Loreseeker décide quelque chose seul",
   ["Show the waypoint arrow"] = "Afficher la flèche de destination",
   ["PvP server: skip contested zones"] = "Serveur JcJ : ignorer les zones contestées",
   ["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."] = "Les zones cochées sont entièrement ignorées ; leurs quêtes attendent dans l'onglet « À revoir ». Pour une partie de zone, placez-vous-y et utilisez Ignorer... > Ignorer la zone autour de moi.",

@@ -30,6 +30,7 @@ LW:AddTranslations("zhCN", {
   ["/lore quest <id> - why a quest has its status"] = "/lore quest <id> - 任务为何处于当前状态",
   ["/lore bug <what happened> - save a bug report with your situation (then report at %s)"] = "/lore bug <发生了什么> - 保存带有当前情况的错误报告（然后在 %s 提交）",
   ["/lore plan - print the planned trip, stop by stop"] = "/lore plan - 逐站显示规划好的路线",
+  ["/lore probe - what the game tells addons about your target (testing quest-giver detection)"] = "/lore probe - 游戏向插件提供的目标信息（测试任务发布者检测）",
   ["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"] = "/lore travel - Loreseeker 认为你已知的飞行点，以及当前步骤的路线",
   ["/lore voice [questId] - test voice-over step by step (default: current step)"] = "/lore voice [questId] - 逐步测试语音（默认：当前步骤）",
   ["/lore check - curated storylines not found for this character"] = "/lore check - 该角色未找到的精选故事线",
@@ -57,6 +58,8 @@ LW:AddTranslations("zhCN", {
   ["Seasonal event quests"] = "节日活动任务",
   ["Battleground quests"] = "战场任务",
   -- Interface: Engine/Offers.lua
+  ["[%s] is back on your route."] = "[%s] 已回到你的路线中。",
+  ["[%s] is offered again, so it is back on your route."] = "[%s] 再次可接，已回到你的路线中。",
   ["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."] = "%s 似乎不提供 [%s]。已移至“稍后回访”（如有误，请在那里点击“重试”）。",
   ["This NPC"] = "这个 NPC",
   -- Interface: Engine/Skips.lua
@@ -193,6 +196,7 @@ LW:AddTranslations("zhCN", {
   ["Plan the trip ahead (up to 16 steps) instead of one step at a time"] = "提前规划路线（最多 16 步），而不是一次一步",
   ["Display"] = "显示",
   ["Show the step panel"] = "显示步骤面板",
+  ["Show notifications at the top of the screen when Loreseeker decides something on its own"] = "当 Loreseeker 自动做出决定时，在屏幕上方显示通知",
   ["Show the waypoint arrow"] = "显示导航箭头",
   ["PvP server: skip contested zones"] = "PvP 服务器：跳过争夺地区",
   ["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."] = "勾选的地区将被完全跳过；其任务在“稍后回访”标签页中等待。若只跳过地区的一部分，请站在那里并使用 跳过…… > 跳过我周围的区域。",
