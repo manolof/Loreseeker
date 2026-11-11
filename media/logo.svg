@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#2b3d6b"/>
+      <stop offset="0.55" stop-color="#16213f"/>
+      <stop offset="1" stop-color="#0a0f22"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe9a6"/>
+      <stop offset="0.45" stop-color="#e3b34c"/>
+      <stop offset="1" stop-color="#9c6a1c"/>
+    </linearGradient>
+    <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9c6a1c"/>
+      <stop offset="0.5" stop-color="#ffe2a0"/>
+      <stop offset="1" stop-color="#9c6a1c"/>
+    </linearGradient>
+    <linearGradient id="pageL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d9c49a"/>
+      <stop offset="1" stop-color="#f6ead0"/>
+    </linearGradient>
+    <linearGradient id="pageR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f6ead0"/>
+      <stop offset="1" stop-color="#d9c49a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff6d6" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#ffd877" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ffd877" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame"><rect x="16" y="16" width="480" height="480" rx="72"/></clipPath>
+  </defs>
+
+  <!-- night sky -->
+  <rect x="16" y="16" width="480" height="480" rx="72" fill="url(#sky)"/>
+  <g clip-path="url(#frame)" fill="#fff6dc">
+    <circle cx="96" cy="118" r="2.6" opacity="0.8"/>
+    <circle cx="150" cy="70" r="1.8" opacity="0.6"/>
+    <circle cx="402" cy="96" r="2.2" opacity="0.75"/>
+    <circle cx="430" cy="170" r="1.6" opacity="0.55"/>
+    <circle cx="76" cy="214" r="1.6" opacity="0.5"/>
+    <circle cx="352" cy="58" r="1.5" opacity="0.5"/>
+    <circle cx="452" cy="250" r="2" opacity="0.45"/>
+    <!-- distant hills -->
+    <path d="M16 330 C 90 290, 150 300, 210 322 C 270 300, 330 282, 400 306 C 440 318, 470 312, 496 300 L 496 496 L 16 496 Z"
+          fill="#0d1530" opacity="0.9"/>
+  </g>
+
+  <!-- guiding star -->
+  <circle cx="256" cy="118" r="70" fill="url(#glow)"/>
+  <path d="M256 66 L268 106 L308 118 L268 130 L256 170 L244 130 L204 118 L244 106 Z" fill="url(#gold)"/>
+  <path d="M256 92 L262 112 L282 118 L262 124 L256 144 L250 124 L230 118 L250 112 Z" fill="#fff8de"/>
+
+  <!-- the trail: winds from the book up to the star -->
+  <path d="M256 352 C 196 330, 186 292, 236 268 C 292 242, 318 214, 280 190 C 262 178, 256 168, 256 166"
+        fill="none" stroke="#f3cf76" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 20"/>
+
+  <!-- open book -->
+  <path d="M256 360 C 214 334, 150 330, 98 344 L 98 432 C 150 418, 214 422, 256 448 Z" fill="url(#pageL)"/>
+  <path d="M256 360 C 298 334, 362 330, 414 344 L 414 432 C 362 418, 298 422, 256 448 Z" fill="url(#pageR)"/>
+  <!-- page lines -->
+  <g stroke="#b89a64" stroke-width="3" stroke-linecap="round" opacity="0.7" fill="none">
+    <path d="M126 364 C 160 356, 200 358, 232 372"/>
+    <path d="M126 384 C 160 376, 200 378, 232 392"/>
+    <path d="M126 404 C 160 396, 200 398, 232 412"/>
+    <path d="M280 372 C 312 358, 352 356, 386 364"/>
+    <path d="M280 392 C 312 378, 352 376, 386 384"/>
+    <path d="M280 412 C 312 398, 352 396, 386 404"/>
+  </g>
+  <!-- gold binding and edges -->
+  <path d="M98 344 C 150 330, 214 334, 256 360 C 298 334, 362 330, 414 344" fill="none" stroke="url(#goldH)" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M98 432 C 150 418, 214 422, 256 448 C 298 422, 362 418, 414 432" fill="none" stroke="url(#goldH)" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M86 340 L 86 440 C 148 424, 214 428, 256 456 C 298 428, 364 424, 426 440 L 426 340"
+        fill="none" stroke="#8a5a17" stroke-width="8" stroke-linejoin="round"/>
+  <line x1="256" y1="360" x2="256" y2="448" stroke="#9c6a1c" stroke-width="5"/>
+
+  <!-- frame -->
+  <rect x="16" y="16" width="480" height="480" rx="72" fill="none" stroke="url(#gold)" stroke-width="10"/>
+  <rect x="32" y="32" width="448" height="448" rx="58" fill="none" stroke="#e3b34c" stroke-width="2" opacity="0.55"/>
+</svg>
