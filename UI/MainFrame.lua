@@ -57,7 +57,9 @@ function M:Create()
 
   f.summary = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
   f.summary:SetPoint("TOPRIGHT", -12, -32)
+  f.summary:SetPoint("LEFT", f, "LEFT", 70, 0) -- stays clear of the portrait; long text is cut, never overlaps
   f.summary:SetJustifyH("RIGHT")
+  f.summary:SetWordWrap(false)
   if inset then
     inset:ClearAllPoints()
     inset:SetPoint("TOPLEFT", 4, -60)
@@ -81,6 +83,10 @@ function M:Create()
     def.tab = tab
   end
   if PanelTemplates_SetNumTabs then PanelTemplates_SetNumTabs(f, #self.tabs) end
+  -- Translated tab names can be long: make the window at least as wide as its tab strip.
+  local tabsWidth = 24
+  for _, def in ipairs(self.tabs) do tabsWidth = tabsWidth + def.tab:GetWidth() - 14 end
+  if tabsWidth > f:GetWidth() then f:SetWidth(tabsWidth) end
 
   f:SetScript("OnShow", function() M:Select(M.selected or 1) end)
   self.frame = f

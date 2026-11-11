@@ -1,0 +1,33 @@
+# Compiles every Lua file with Lua 5.1 (the language version WoW uses) on each push and pull
+# request, and checks that every file the TOC lists exists.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua 5.1
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lua5.1
+      - name: Compile all Lua files
+        run: |
+          status=0
+          while IFS= read -r -d '' f; do
+            luac5.1 -p "$f" || status=1
+          done < <(find . -name '*.lua' -not -path './.git/*' -print0)
+          exit $status
+      - name: Every file in the TOC exists
+        run: |
+          status=0
+          while IFS= read -r line; do
+            line="${line%$'\r'}"
+            case "$line" in ''|'#'*) continue ;; esac
+            f="${line//\\//}"
+            [ -f "$f" ] || { echo "Missing: $f"; status=1; }
+          done < Loreseeker.toc
+          exit $status

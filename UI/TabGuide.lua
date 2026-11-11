@@ -20,7 +20,7 @@ local function taskItem(t, indent)
     text = (story and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "") .. t.text .. ": " .. UI.QuestLabel(t.quest),
     right = where,
     tooltip = UI.Lines(t.quest.name, t.target and t.target ~= "" and string.format(L["Target: %s"], t.target), t.detail,
-      story and string.format(L["Story: %s"], L[story.name]), L["Click: open its storyline. Right-click: do next / skip."]),
+      story and string.format(L["Story: %s"], LW.StorylineName(story)), L["Click: open its storyline. Right-click: do next / skip."]),
     onClick = function(item, mouse)
       if mouse == "RightButton" then
         UI.SkipMenu(LW.Main.frame, t, {
@@ -67,7 +67,7 @@ function tab:Refresh()
           text = (story and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "") .. t.text .. ": " .. UI.QuestLabel(t.quest),
           right = step.preview and L["once you have the quest"] or "",
           tooltip = UI.Lines(t.quest.name, t.target and t.target ~= "" and string.format(L["Target: %s"], t.target),
-            story and string.format(L["Story: %s"], L[story.name]), L["Click: open its storyline. Right-click: do next / skip."]),
+            story and string.format(L["Story: %s"], LW.StorylineName(story)), L["Click: open its storyline. Right-click: do next / skip."]),
           onClick = function(_, mouse)
             if mouse == "RightButton" and not step.preview then
               UI.SkipMenu(LW.Main.frame, t, {

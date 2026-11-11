@@ -83,6 +83,13 @@ function SF:Create()
   f.listen:SetPoint("LEFT", f.next, "RIGHT", 4, 0)
   f.open = btn(L["Guide"], 62)
   f.open:SetPoint("LEFT", f.listen, "RIGHT", 4, 0)
+  -- The panel widens when the buttons grow (longer words in other languages, "Stop").
+  local function fitWidth()
+    local w = 16 + f.skip:GetWidth() + f.next:GetWidth() + f.listen:GetWidth() + f.open:GetWidth() + 12
+    f:SetWidth(math.max(320, w))
+  end
+  for _, b in ipairs({ f.skip, f.next, f.listen, f.open }) do b.OnResize = fitWidth end
+  fitWidth()
 
   f.skip:SetScript("OnClick", function(self) if SF.task then LW.UI.SkipMenu(self, SF.task) end end)
   f.next:SetScript("OnClick", function() if SF.task then LW.Router:Snooze(SF.task) end end)
@@ -156,7 +163,7 @@ function SF:Show(task)
     f.story:SetText(string.format("%s" .. L["Story: %s - %d/%d"], curated and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "",
       LW.Chains:Name(chain), done, total))
   elseif curated then
-    f.story:SetText("|TInterface\\Icons\\INV_Misc_Book_09:12|t " .. string.format(L["Story: %s"], L[curated.name]))
+    f.story:SetText("|TInterface\\Icons\\INV_Misc_Book_09:12|t " .. string.format(L["Story: %s"], LW.StorylineName(curated)))
   else
     f.story:SetText("")
   end

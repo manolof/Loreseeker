@@ -78,7 +78,7 @@ function tab:Build(panel)
   y = y - 30
   local col = 0
   for _, z in ipairs(LW.Skips.contested) do
-    local area, name = z[1], z[2]
+    local area, name = z[1], (C_Map.GetAreaInfo and C_Map.GetAreaInfo(z[1])) or z[2]
     local w = UI.Check(c, name, function() return LW.db.pvpZones[area] end,
       function(v)
         LW.db.pvpZones[area] = v or nil

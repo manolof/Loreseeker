@@ -311,6 +311,19 @@ function S:ToggleStar(chain)
   LW.Router:Route()
 end
 
+--- A storyline's name in the client's language: a translation if there is one; else, when the
+--- storyline is named after one of its quests, that quest's name as the game shows it; else English.
+function LW.StorylineName(s)
+  local L = LW.L
+  if not s then return "" end
+  if s.user or LW.locale == "enUS" or LW.locale == "enGB" then return s.name end
+  local translated = rawget(L, s.name)
+  if translated then return translated end
+  local id = LW.StorylineNameQuest and LW.StorylineNameQuest[s.name]
+  local questName = id and LibQuestieDB and LibQuestieDB.Quest.Get(id, "name")
+  return questName or s.name
+end
+
 --- Curated storyline for a quest entry, if any.
 function S:For(e)
   if not e then return nil end

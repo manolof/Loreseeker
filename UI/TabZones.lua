@@ -56,7 +56,7 @@ function tab:Refresh()
           indent = 1, icon = UI.STATUS_ICON[q.s], dim = q.s == "done" or q.s == "locked",
           text = (story and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "") .. UI.QuestLabel(q.e),
           right = UI.STATUS_LABEL[q.s],
-          tooltip = UI.Lines(q.e.name, string.format(L["Category: %s"], L[LW.Categories.labels[q.e.cat] or q.e.cat]), story and string.format(L["Story: %s"], L[story.name]),
+          tooltip = UI.Lines(q.e.name, string.format(L["Category: %s"], L[LW.Categories.labels[q.e.cat] or q.e.cat]), story and string.format(L["Story: %s"], LW.StorylineName(story)),
             string.format(L["Requires level %d"], q.e.req or 0), UI.STORY_HINT),
           onClick = function() LW.Main:ShowStory(q.e.id) end,
         }

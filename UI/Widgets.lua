@@ -57,9 +57,23 @@ function UI.Lines(...)
   return out
 end
 
+--- A stock button that grows to fit its text (translations are often longer than English),
+--- never shrinking below the width asked for. b.OnResize(b) runs when it grows.
 function UI.Button(parent, text, width, height)
   local b = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-  b:SetSize(width or 90, height or 22)
+  b.minWidth = width or 90
+  b:SetSize(b.minWidth, height or 22)
+  local setText = b.SetText
+  b.SetText = function(self, t)
+    setText(self, t)
+    local fs = self:GetFontString()
+    local need = fs and (fs:GetStringWidth() + 20) or 0
+    local w = math.max(self.minWidth, need)
+    if math.abs(w - self:GetWidth()) > 0.5 then
+      self:SetWidth(w)
+      if self.OnResize then self:OnResize() end
+    end
+  end
   b:SetText(text)
   return b
 end
@@ -102,6 +116,7 @@ function UI.Stepper(parent, label, minV, maxV, get, set, fmt)
   f.Refresh = function()
     local v = get()
     value:SetText(fmt and fmt(v) or tostring(v))
+    value:SetWidth(math.max(96, value:GetStringWidth() + 8)) -- the label after it moves along
   end
   minus:SetScript("OnClick", function() set(math.max(minV, get() - 1)); f.Refresh() end)
   plus:SetScript("OnClick", function() set(math.min(maxV, get() + 1)); f.Refresh() end)
@@ -171,7 +186,7 @@ local function layoutRow(row, item, width)
     row.btn:SetText(item.button.text)
     row.btn:ClearAllPoints()
     row.btn:SetPoint("RIGHT", rightEdge, 0)
-    rightEdge = rightEdge - 74
+    rightEdge = rightEdge - row.btn:GetWidth() - 4 -- the button may have grown to fit its text
   else
     row.btn:Hide()
   end

@@ -9,14 +9,14 @@ LW.Skips = SK
 
 -- Contested zones for the PvP-server preset (Classic area IDs).
 SK.contested = {
-  { 331, L["Ashenvale"] }, { 406, L["Stonetalon Mountains"] }, { 33, L["Stranglethorn Vale"] },
-  { 267, L["Hillsbrad Foothills"] }, { 45, L["Arathi Highlands"] }, { 405, L["Desolace"] },
-  { 400, L["Thousand Needles"] }, { 36, L["Alterac Mountains"] }, { 8, L["Swamp of Sorrows"] },
-  { 3, L["Badlands"] }, { 15, L["Dustwallow Marsh"] }, { 47, L["The Hinterlands"] },
-  { 440, L["Tanaris"] }, { 357, L["Feralas"] }, { 51, L["Searing Gorge"] }, { 46, L["Burning Steppes"] },
-  { 490, L["Un'Goro Crater"] }, { 16, L["Azshara"] }, { 361, L["Felwood"] }, { 618, L["Winterspring"] },
-  { 1377, L["Silithus"] }, { 28, L["Western Plaguelands"] }, { 139, L["Eastern Plaguelands"] },
-  { 4, L["Blasted Lands"] }, { 17, L["The Barrens"] }, { 11, L["Wetlands"] }, { 10, L["Duskwood"] },
+  { 331, "Ashenvale" }, { 406, "Stonetalon Mountains" }, { 33, "Stranglethorn Vale" },
+  { 267, "Hillsbrad Foothills" }, { 45, "Arathi Highlands" }, { 405, "Desolace" },
+  { 400, "Thousand Needles" }, { 36, "Alterac Mountains" }, { 8, "Swamp of Sorrows" },
+  { 3, "Badlands" }, { 15, "Dustwallow Marsh" }, { 47, "The Hinterlands" },
+  { 440, "Tanaris" }, { 357, "Feralas" }, { 51, "Searing Gorge" }, { 46, "Burning Steppes" },
+  { 490, "Un'Goro Crater" }, { 16, "Azshara" }, { 361, "Felwood" }, { 618, "Winterspring" },
+  { 1377, "Silithus" }, { 28, "Western Plaguelands" }, { 139, "Eastern Plaguelands" },
+  { 4, "Blasted Lands" }, { 17, "The Barrens" }, { 11, "Wetlands" }, { 10, "Duskwood" },
 }
 
 SK.DEFAULT_RADIUS = 0.08 -- fraction of the zone map

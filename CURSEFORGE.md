@@ -33,6 +33,9 @@ It isn't a hand-written route. Loreseeker reads the full quest database through 
 - **Copes with gaps in the data:** it spots breadcrumbs that are no longer offered, follow-ups missing their prerequisite, and NPCs that don't offer what the database says.
 - **Looks like the game:** stock Blizzard frames, fonts and icons, no custom skins.
 
+### Languages
+English, German, French, Spanish, Russian and Simplified Chinese. Quest, NPC and zone names are always in your client's language.
+
 ### Requirements
 - **Questie** and **QuestieDB** (required)
 - **Spoken** (optional, for voice-over)

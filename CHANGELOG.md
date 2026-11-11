@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+- Translated into German, French, Spanish, Russian and Simplified Chinese (more languages welcome, see Locales/README.md)
+- Works on every client language: storylines are matched by quest ID, the flight map is read by position, and zone and storyline names come from the game where possible
+- Buttons and the step panel grow to fit longer words in other languages
+- New command name /lore (/lw still works)
+
 ## 0.2.1
 - First release on CurseForge (no gameplay changes from 0.2.0)
 

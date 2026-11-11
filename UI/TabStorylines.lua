@@ -78,7 +78,7 @@ function tab:Refresh()
   end
   items[#items + 1] = { header = true, text = string.format(L["Notable storylines (%d)"], #curated) }
   for _, zone in ipairs(order) do
-    items[#items + 1] = { indent = 1, header = true, text = L[zone] }
+    items[#items + 1] = { indent = 1, header = true, text = LW.LocalZone(zone) }
     for _, chain in ipairs(zones[zone]) do
       chainRow(chain, items, self.open, 1)
       -- a storyline's side chains appear under it once it is opened
