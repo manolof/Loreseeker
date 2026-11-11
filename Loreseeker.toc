@@ -1,11 +1,12 @@
 ## Interface: 16001
 ## Title: Loreseeker
 ## Notes: Do every quest worth doing. A dynamic, lore-first quest guide for WoW Forever, built on Questie.
-## Version: 0.2.0
+## Version: 0.2.1
 ## IconTexture: Interface\Icons\INV_Misc_Book_11
 ## Author: manolof
 ## X-Website: https://github.com/manolof/Loreseeker
 ## X-License: GPLv3
+## X-Curse-Project-ID: 1798150
 ## Category-enUS: Quests
 ## Dependencies: QuestieDB, Questie
 ## OptionalDeps: Spoken, Spoken_Quests
