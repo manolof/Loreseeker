@@ -131,13 +131,13 @@ function SK:CheckRevisits(level)
   for _, r in ipairs(list()) do
     if r.level and level >= r.level and not r.reminded then
       r.reminded = true
-      StaticPopup_Show("LOREWALKER_REVISIT", self:Describe(r), nil, r)
+      StaticPopup_Show("LORESEEKER_REVISIT", self:Describe(r), nil, r)
     end
   end
 end
 
-StaticPopupDialogs["LOREWALKER_REVISIT"] = {
-  text = "Lorewalker: time to revisit\n\n%s\n\nRemove this skip?",
+StaticPopupDialogs["LORESEEKER_REVISIT"] = {
+  text = "Loreseeker: time to revisit\n\n%s\n\nRemove this skip?",
   button1 = "Unskip",
   button2 = "Keep skipping",
   OnAccept = function(_, rule) if rule then SK:Remove(rule) end end,
@@ -145,7 +145,7 @@ StaticPopupDialogs["LOREWALKER_REVISIT"] = {
 }
 
 -- Note prompt used by every "Skip ..." action. data = function(note, level).
-StaticPopupDialogs["LOREWALKER_SKIP"] = {
+StaticPopupDialogs["LORESEEKER_SKIP"] = {
   text = "%s\n\nOptional note. Add @level to be reminded, e.g. \"horde camp @40\".",
   button1 = "Skip",
   button2 = CANCEL,
@@ -171,5 +171,5 @@ StaticPopupDialogs["LOREWALKER_SKIP"] = {
 }
 
 function SK:Prompt(title, apply)
-  StaticPopup_Show("LOREWALKER_SKIP", title, nil, apply)
+  StaticPopup_Show("LORESEEKER_SKIP", title, nil, apply)
 end

@@ -25,7 +25,7 @@ local function soundData(E, questId, event)
     questID = questId,
     title = e and e.name or nil,
     name = "Unknown Name",
-    origin = "Lorewalker",
+    origin = "Loreseeker",
   }
 end
 
@@ -46,14 +46,14 @@ function V:HasClip(questId, event)
   return false
 end
 
---- `/lw voice [questId]`: walk through every step and print what happens.
+--- `/lore voice [questId]`: walk through every step and print what happens.
 function V:Diagnose(questId)
   local function say(...) LW:Print("|cffffffff[voice]|r", ...) end
   if not questId then
     local cur = LW.Router.current
     questId = cur and cur.quest.id
   end
-  if not questId then return say("No quest given and no current step. Use /lw voice <questId>.") end
+  if not questId then return say("No quest given and no current step. Use /lore voice <questId>.") end
   local e = LW.Index:Get(questId)
   say("quest", questId, e and e.name or "(not indexed)")
   local which

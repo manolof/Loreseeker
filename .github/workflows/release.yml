@@ -1,7 +1,7 @@
 # Builds a release zip whenever a version tag (e.g. v0.2.0) is pushed, and uploads it to
 # CurseForge / Wago / GitHub Releases when the matching secrets are set in the GitHub repo:
 #   CF_API_KEY (CurseForge), WAGO_API_TOKEN (Wago). GITHUB_TOKEN is provided automatically.
-# CurseForge and Wago also need their project IDs in Lorewalker.toc:
+# CurseForge and Wago also need their project IDs in Loreseeker.toc:
 #   ## X-Curse-Project-ID: <id>     ## X-Wago-ID: <id>
 name: Package and release
 

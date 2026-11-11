@@ -1,11 +1,11 @@
--- Lorewalker: namespace, saved variables, events, a tiny message bus and a coroutine runner.
+-- Loreseeker: namespace, saved variables, events, a tiny message bus and a coroutine runner.
 local ADDON, LW = ...
-Lorewalker = LW -- global for /dump debugging
+Loreseeker = LW -- global for /dump debugging
 
 local GetMeta = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
 LW.name = ADDON
 LW.version = GetMeta and GetMeta(ADDON, "Version") or "?"
-LW.ISSUES = "github.com/manolof/Lorewalker/issues"
+LW.ISSUES = "github.com/manolof/Loreseeker/issues"
 
 ---------------------------------------------------------------------------------------------
 -- Settings
@@ -56,14 +56,14 @@ local function fillDefaults(dst, src)
 end
 
 function LW:InitDB()
-  LorewalkerDB = LorewalkerDB or {}
-  LorewalkerDB.profile = LorewalkerDB.profile or {}
-  fillDefaults(LorewalkerDB.profile, self.defaults)
-  self.db = LorewalkerDB.profile
+  LoreseekerDB = LoreseekerDB or {}
+  LoreseekerDB.profile = LoreseekerDB.profile or {}
+  fillDefaults(LoreseekerDB.profile, self.defaults)
+  self.db = LoreseekerDB.profile
 
-  LorewalkerCharDB = LorewalkerCharDB or {}
-  fillDefaults(LorewalkerCharDB, charDefaults)
-  self.char = LorewalkerCharDB
+  LoreseekerCharDB = LoreseekerCharDB or {}
+  fillDefaults(LoreseekerCharDB, charDefaults)
+  self.char = LoreseekerCharDB
 end
 
 ---------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ end
 function LW:Print(...)
   local parts = { ... }
   for i = 1, select("#", ...) do parts[i] = tostring(parts[i]) end
-  DEFAULT_CHAT_FRAME:AddMessage(NORMAL_FONT_COLOR_CODE .. "Lorewalker:|r " .. table.concat(parts, " "))
+  DEFAULT_CHAT_FRAME:AddMessage(NORMAL_FONT_COLOR_CODE .. "Loreseeker:|r " .. table.concat(parts, " "))
 end
 
 ---------------------------------------------------------------------------------------------

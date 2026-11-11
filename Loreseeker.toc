@@ -1,16 +1,16 @@
 ## Interface: 16001
-## Title: Lorewalker
+## Title: Loreseeker
 ## Notes: Do every quest worth doing. A dynamic, lore-first quest guide for WoW Forever, built on Questie.
 ## Version: 0.2.0
 ## IconTexture: Interface\Icons\INV_Misc_Book_11
 ## Author: manolof
-## X-Website: https://github.com/manolof/Lorewalker
+## X-Website: https://github.com/manolof/Loreseeker
 ## X-License: GPLv3
 ## Category-enUS: Quests
 ## Dependencies: QuestieDB, Questie
 ## OptionalDeps: Spoken, Spoken_Quests
-## SavedVariables: LorewalkerDB
-## SavedVariablesPerCharacter: LorewalkerCharDB
+## SavedVariables: LoreseekerDB
+## SavedVariablesPerCharacter: LoreseekerCharDB
 
 # Bundled libraries (LibStub keeps only the newest copy if other addons ship them too)
 Libs\LibStub\LibStub.lua

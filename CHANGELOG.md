@@ -1,9 +1,10 @@
 # Changelog
 
 ## 0.2.0
+- Renamed from "Lorewalker" (another addon already uses that name). The command is now `/lore` (`/lw` still works); saved data is carried over
 - Item objectives weigh every source (drop rate, vendor, Auction House, your recipes) and show the cheapest
 - Recipes learned from your profession window
-- Quest index cached per character; rebuilt automatically when Questie, QuestieDB, Lorewalker or your skills change
+- Quest index cached per character; rebuilt automatically when Questie, QuestieDB, Loreseeker or your skills change
 - Lookahead planner (up to 16 steps), grouped into stops ("on the way")
 - Travel model: known flight paths, boats, zeppelins, Deeprun Tram
 - About 100 curated storylines grouped by zone; star your own

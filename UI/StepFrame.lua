@@ -10,7 +10,7 @@ local KIND_VERB = {
 }
 
 function SF:Create()
-  local f = CreateFrame("Frame", "LorewalkerStepFrame", UIParent, "BackdropTemplate")
+  local f = CreateFrame("Frame", "LoreseekerStepFrame", UIParent, "BackdropTemplate")
   f:SetSize(320, 118)
   f:SetFrameStrata("MEDIUM")
   f:SetBackdrop({
@@ -25,7 +25,7 @@ function SF:Create()
 
   f.header = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
   f.header:SetPoint("TOPLEFT", 10, -8)
-  f.header:SetText("Lorewalker")
+  f.header:SetText("Loreseeker")
 
   f.icon = f:CreateTexture(nil, "ARTWORK")
   f.icon:SetSize(28, 28)
@@ -121,7 +121,7 @@ function SF:Show(task)
   local e = task.quest
   -- header: how much more the plan has for you at this same spot ("on the way")
   local more = LW.Router.planned and LW.Planner:MoreHere() or 0
-  f.header:SetText(more > 0 and ("Lorewalker  -  " .. more .. " more to do right here") or "Lorewalker")
+  f.header:SetText(more > 0 and ("Loreseeker  -  " .. more .. " more to do right here") or "Loreseeker")
   f.icon:SetTexture(LW.UI.ICONS[task.kind] or LW.UI.ICONS.generic)
   f.title:SetText(LW.UI.QuestLabel(e))
 

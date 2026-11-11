@@ -49,7 +49,7 @@ local function isTrivial(e)
 end
 
 -- Asked live, not from our last refresh: right after you accept a quest the dialog reopens
--- without it, before Lorewalker has caught up, and that must not read as "not offered".
+-- without it, before Loreseeker has caught up, and that must not read as "not offered".
 local recentlyAccepted = {} -- [questId] = GetTime()
 local function haveQuest(qid)
   if recentlyAccepted[qid] and GetTime() - recentlyAccepted[qid] < 30 then return true end

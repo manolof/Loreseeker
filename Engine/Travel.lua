@@ -308,7 +308,7 @@ LW:OnEvent("TAXIMAP_OPENED", function()
 end)
 LW:Listen("UPDATED", function() if TR.ready then recountZones() end end)
 
---- `/lw travel`: what Lorewalker believes about your flight points, and the current plan.
+--- `/lore travel`: what Loreseeker believes about your flight points, and the current plan.
 function TR:Report()
   if not self.ready then return LW:Print("Travel model not available.") end
   local s = store()

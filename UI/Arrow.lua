@@ -8,7 +8,7 @@ local HBD = LibStub and LibStub("HereBeDragons-2.0", true)
 local ARRIVED_YARDS = 10
 
 function AR:Create()
-  local f = CreateFrame("Button", "LorewalkerArrow", UIParent)
+  local f = CreateFrame("Button", "LoreseekerArrow", UIParent)
   f:SetSize(64, 80)
   f:SetFrameStrata("MEDIUM")
   LW.UI.MakeMovable(f, "arrow")
@@ -28,7 +28,7 @@ function AR:Create()
   f:SetScript("OnEnter", function(self)
     if not AR.point then return end
     GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-    GameTooltip:SetText(AR.title or "Lorewalker")
+    GameTooltip:SetText(AR.title or "Loreseeker")
     GameTooltip:AddLine(string.format("%s %.1f, %.1f", LW.MapName(AR.point.map), AR.point.x * 100, AR.point.y * 100), 1, 1, 1)
     GameTooltip:AddLine("Drag to move.", 0.6, 0.6, 0.6)
     GameTooltip:Show()

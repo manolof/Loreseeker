@@ -184,7 +184,7 @@ end
 ---------------------------------------------------------------------------------------------
 -- Cache. Reading ~5,700 quests from QuestieDB is the slow part of a login, and the answer
 -- only changes when something it depends on changes. The result is saved per character and
--- reused while this key matches: Lorewalker, QuestieDB and Questie versions, race, class,
+-- reused while this key matches: Loreseeker, QuestieDB and Questie versions, race, class,
 -- and the skills you know (a new profession changes which quests apply).
 ---------------------------------------------------------------------------------------------
 

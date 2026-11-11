@@ -254,7 +254,7 @@ function UI.Menu(owner, items)
     local menu = {}
     for _, it in ipairs(items) do menu[#menu + 1] = { text = it.text, func = it.func, notCheckable = true } end
     menu[#menu + 1] = { text = CANCEL, notCheckable = true }
-    local dd = _G.LorewalkerMenuDropDown or CreateFrame("Frame", "LorewalkerMenuDropDown", UIParent, "UIDropDownMenuTemplate")
+    local dd = _G.LoreseekerMenuDropDown or CreateFrame("Frame", "LoreseekerMenuDropDown", UIParent, "UIDropDownMenuTemplate")
     EasyMenu(menu, dd, "cursor", 0, 0, "MENU")
     return
   end

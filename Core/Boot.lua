@@ -193,25 +193,26 @@ local function questInfo(id)
 end
 
 local HELP = {
-  "/lw - open or close the window",
-  "/lw step | arrow - toggle the step panel / arrow",
-  "/lw status - counts",
-  "/lw quest <id> - why a quest has its status",
-  "/lw bug <what happened> - save a bug report with your situation (then report at " .. LW.ISSUES .. ")",
-  "/lw plan - print the planned trip, stop by stop",
-  "/lw travel - flight points Lorewalker thinks you know, and the plan for the current step",
-  "/lw voice [questId] - test voice-over step by step (default: current step)",
-  "/lw check - curated storylines not found for this character",
-  "/lw rebuild - rebuild the quest index from QuestieDB (normally automatic)",
-  "/lw diag clear - wipe saved diagnostics",
+  "/lore - open or close the window",
+  "/lore step | arrow - toggle the step panel / arrow",
+  "/lore status - counts",
+  "/lore quest <id> - why a quest has its status",
+  "/lore bug <what happened> - save a bug report with your situation (then report at " .. LW.ISSUES .. ")",
+  "/lore plan - print the planned trip, stop by stop",
+  "/lore travel - flight points Loreseeker thinks you know, and the plan for the current step",
+  "/lore voice [questId] - test voice-over step by step (default: current step)",
+  "/lore check - curated storylines not found for this character",
+  "/lore rebuild - rebuild the quest index from QuestieDB (normally automatic)",
+  "/lore diag clear - wipe saved diagnostics",
 }
 
-SLASH_LOREWALKER1 = "/lw"
-SLASH_LOREWALKER2 = "/lorewalker"
-SlashCmdList.LOREWALKER = function(input)
+SLASH_LORESEEKER1 = "/lore"
+SLASH_LORESEEKER2 = "/loreseeker"
+SLASH_LORESEEKER3 = "/lw" -- the old name, kept so habits keep working
+SlashCmdList.LORESEEKER = function(input)
   local cmd, rest = (input or ""):match("^%s*(%S*)%s*(.-)%s*$")
   cmd = (cmd or ""):lower()
-  if not LW.Main.frame then return fail("Lorewalker did not start; see /lw bug output after /reload.") end
+  if not LW.Main.frame then return fail("Loreseeker did not start; see /lore bug output after /reload.") end
   if cmd == "" then LW.Main:Toggle()
   elseif cmd == "step" then LW.StepFrame:Toggle()
   elseif cmd == "arrow" then

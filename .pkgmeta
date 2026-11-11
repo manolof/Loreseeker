@@ -1,5 +1,5 @@
 # BigWigs packager configuration (used by CurseForge/Wago/GitHub Actions to build releases).
-package-as: Lorewalker
+package-as: Loreseeker
 
 # Libraries are committed in Libs/ (no externals), so packaging works offline too.
 

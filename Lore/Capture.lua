@@ -1,6 +1,6 @@
 -- Lore journal capture: saves every quest's text as you read it (offer, objectives, progress
 -- and completion), so the story can be reread later by zone or storyline. For quests done
--- before Lorewalker was installed, the Journal falls back to Spoken's text corpus when present.
+-- before Loreseeker was installed, the Journal falls back to Spoken's text corpus when present.
 local _, LW = ...
 
 local J = {}

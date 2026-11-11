@@ -1,7 +1,7 @@
 -- Curated notable storylines, grouped by zone. Matched by quest NAME at runtime: any listed
 -- quest that exists for this character tags its whole chain, so there are no hand-typed IDs.
--- Every name here was checked against the Forever quest database (LorewalkerDev/names.js).
--- Storylines for the other faction simply don't resolve; `/lw check` lists those.
+-- Every name here was checked against the Forever quest database (LoreseekerDev/names.js).
+-- Storylines for the other faction simply don't resolve; `/lore check` lists those.
 -- Players can also star any chain themselves (saved per character).
 local _, LW = ...
 

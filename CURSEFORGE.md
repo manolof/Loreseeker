@@ -1,7 +1,7 @@
 # CurseForge project page
 
 ## Project name
-Lorewalker
+Loreseeker
 
 ## Summary (one line, shown in search results)
 A lore-first quest guide for WoW Forever: do every quest and story, in a smart order.
@@ -16,9 +16,9 @@ media/logo-400.png (400 x 400)
 
 **Not the fastest way to 60. The most complete one.**
 
-Lorewalker is a quest guide for **WoW Forever** for players who want to see the world and its stories, not race to max level, without giving up the streamlined "what's next?" feel of a leveling guide.
+Loreseeker is a quest guide for **WoW Forever** for players who want to see the world and its stories, not race to max level, without giving up the streamlined "what's next?" feel of a leveling guide.
 
-It isn't a hand-written route. Lorewalker reads the full quest database through Questie, works out what *your* character can do right now, and plans a trip around it: picking up, doing and handing in quests in a sensible order, using the flight paths you have, boats and the tram.
+It isn't a hand-written route. Loreseeker reads the full quest database through Questie, works out what *your* character can do right now, and plans a trip around it: picking up, doing and handing in quests in a sensible order, using the flight paths you have, boats and the tram.
 
 ### Features
 
@@ -38,18 +38,18 @@ It isn't a hand-written route. Lorewalker reads the full quest database through 
 - **Spoken** (optional, for voice-over)
 
 ### Commands
-`/lw` opens the window. `/lw plan` prints your trip, `/lw travel` shows your known flight points, `/lw quest <id>` explains a quest's status, and `/lw bug <text>` saves a bug report.
+`/lore` opens the window. `/lore plan` prints your trip, `/lore travel` shows your known flight points, `/lore quest <id>` explains a quest's status, and `/lore bug <text>` saves a bug report.
 
 ### Privacy
-Everything stays on your computer: Lorewalker never sends anything anywhere.
+Everything stays on your computer: Loreseeker never sends anything anywhere.
 
 ### Bug reports and ideas
-Please report on **GitHub Issues: https://github.com/manolof/Lorewalker/issues** (the form tells you exactly what to include).
-In game, type `/lw bug what happened`, then `/reload`, and attach the `Lorewalker.lua` file from `WTF/Account/<account>/SavedVariables`.
+Please report on **GitHub Issues: https://github.com/manolof/Loreseeker/issues** (the form tells you exactly what to include).
+In game, type `/lore bug what happened`, then `/reload`, and attach the `Loreseeker.lua` file from `WTF/Account/<account>/SavedVariables`.
 
 ## Project links (CurseForge project settings)
-- Issues: https://github.com/manolof/Lorewalker/issues
-- Source: https://github.com/manolof/Lorewalker
+- Issues: https://github.com/manolof/Loreseeker/issues
+- Source: https://github.com/manolof/Loreseeker
 
 ## Screenshots to take in game (1920x1080 or larger, UI scale normal)
 1. **Step panel and arrow** in a busy quest hub, with a quest that has a storyline line ("Story: ... 3/7").

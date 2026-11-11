@@ -10,16 +10,16 @@ function M:AddTab(def)
 end
 
 local function tryCreate(template)
-  local ok, f = pcall(CreateFrame, "Frame", "LorewalkerFrame", UIParent, template)
+  local ok, f = pcall(CreateFrame, "Frame", "LoreseekerFrame", UIParent, template)
   return ok and f or nil
 end
 
 local function tryTab(parent, i)
   for _, template in ipairs({ "PanelTabButtonTemplate", "CharacterFrameTabButtonTemplate", "CharacterFrameTabTemplate" }) do
-    local ok, tab = pcall(CreateFrame, "Button", "LorewalkerFrameTab" .. i, parent, template)
+    local ok, tab = pcall(CreateFrame, "Button", "LoreseekerFrameTab" .. i, parent, template)
     if ok and tab then return tab end
   end
-  return CreateFrame("Button", "LorewalkerFrameTab" .. i, parent, "UIPanelButtonTemplate")
+  return CreateFrame("Button", "LoreseekerFrameTab" .. i, parent, "UIPanelButtonTemplate")
 end
 
 function M:Create()
@@ -30,9 +30,9 @@ function M:Create()
   f:Hide()
   LW.UI.MakeMovable(f, "main")
   LW.UI.RestorePosition(f, "main", "CENTER", UIParent, "CENTER", 0, 40)
-  table.insert(UISpecialFrames, "LorewalkerFrame")
+  table.insert(UISpecialFrames, "LoreseekerFrame")
 
-  local title = "Lorewalker"
+  local title = "Loreseeker"
   if f.SetTitle then f:SetTitle(title)
   elseif f.TitleText then f.TitleText:SetText(title)
   elseif f.TitleContainer and f.TitleContainer.TitleText then f.TitleContainer.TitleText:SetText(title) end
@@ -74,7 +74,7 @@ function M:Create()
     tab:SetID(i)
     tab:SetText(def.label)
     if i == 1 then tab:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 12, 2)
-    else tab:SetPoint("LEFT", _G["LorewalkerFrameTab" .. (i - 1)], "RIGHT", -14, 0) end
+    else tab:SetPoint("LEFT", _G["LoreseekerFrameTab" .. (i - 1)], "RIGHT", -14, 0) end
     if PanelTemplates_TabResize then pcall(PanelTemplates_TabResize, tab, 0) end
     tab:SetScript("OnClick", function() M:Select(i) end)
     def.tab = tab

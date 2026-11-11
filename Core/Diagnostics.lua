@@ -1,9 +1,9 @@
--- Diagnostics recorder ("bug catcher"). Everything lands in LorewalkerDB.diag, which the game
--- writes to WTF\Account\<account>\SavedVariables\Lorewalker.lua on /reload or logout, where
+-- Diagnostics recorder ("bug catcher"). Everything lands in LoreseekerDB.diag, which the game
+-- writes to WTF\Account\<account>\SavedVariables\Loreseeker.lua on /reload or logout, where
 -- it can be read and analysed outside the game.
---   errors  - every Lua error whose stack mentions Lorewalker, with stack and context
+--   errors  - every Lua error whose stack mentions Loreseeker, with stack and context
 --   log     - a rolling log of what the addon decided (refreshes, routes, skips, timings)
---   reports - `/lw bug <what happened>` snapshots of your exact situation
+--   reports - `/lore bug <what happened>` snapshots of your exact situation
 local ADDON, LW = ...
 
 local D = {}
@@ -12,11 +12,11 @@ LW.Diag = D
 local MAX_LOG, MAX_ERRORS, MAX_REPORTS = 400, 100, 50
 
 local function store()
-  LorewalkerDB = LorewalkerDB or {}
-  local d = LorewalkerDB.diag
+  LoreseekerDB = LoreseekerDB or {}
+  local d = LoreseekerDB.diag
   if type(d) ~= "table" then
     d = { log = {}, errors = {}, reports = {} }
-    LorewalkerDB.diag = d
+    LoreseekerDB.diag = d
   end
   return d
 end
@@ -92,11 +92,11 @@ function D:Report(text)
   ctx.upcoming = upcoming
   push(store().reports, ctx, MAX_REPORTS)
   LW:Print("Bug report saved. Type /reload to write it to disk, then report it at " .. LW.ISSUES ..
-    " and attach WTF/Account/<account>/SavedVariables/Lorewalker.lua")
+    " and attach WTF/Account/<account>/SavedVariables/Loreseeker.lua")
 end
 
 function D:Clear()
-  LorewalkerDB.diag = nil
+  LoreseekerDB.diag = nil
   store()
   LW:Print("Diagnostics cleared.")
 end
