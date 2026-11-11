@@ -1,8 +1,9 @@
 -- Zones tab: Loremaster-style progress per zone. Click a zone to see its quests.
 local _, LW = ...
+local L = LW.L
 local UI = LW.UI
 
-local tab = { key = "zones", label = "Zones", open = {} }
+local tab = { key = "zones", label = L["Zones"], open = {} }
 
 local ORDER = { active = 1, now = 2, group = 3, later = 4, skipped = 5, locked = 6, done = 7, excluded = 8 }
 
@@ -23,19 +24,19 @@ function tab:Refresh()
   table.sort(zones, function(a, b) return a.name < b.name end)
 
   local items = {
-    { header = true, text = string.format("All zones: %d of %d quests (%d%%)", doneAll, totalAll,
+    { header = true, text = string.format(L["All zones: %d of %d quests (%d%%)"], doneAll, totalAll,
       totalAll > 0 and math.floor(doneAll * 100 / totalAll) or 0), bar = { doneAll, totalAll } },
   }
   for _, z in ipairs(zones) do
     local zone = z.zone
     items[#items + 1] = {
       icon = LW.Adapter:IsDungeonZone(zone) and UI.ICONS.dungeon or UI.ICONS.zone,
-      text = string.format("%s  |cffffffff%d/%d|r", z.name, z.done, z.total),
-      right = string.format("%d avail - %d later - %d skipped", z.now + z.active, z.later, z.skipped),
+      text = string.format(L["%s  |cffffffff%d/%d|r"], z.name, z.done, z.total),
+      right = string.format(L["%d avail - %d later - %d skipped"], z.now + z.active, z.later, z.skipped),
       bar = { z.done, z.total },
       onClick = function() tab.open[zone] = not tab.open[zone]; tab:Refresh() end,
-      button = { text = "Skip...", onClick = function()
-        LW.Skips:Prompt("Skip the zone " .. z.name, function(n, l) LW.Skips:AddZone(zone, n, l) end)
+      button = { text = L["Skip..."], onClick = function()
+        LW.Skips:Prompt(string.format(L["Skip the zone %s"], z.name), function(n, l) LW.Skips:AddZone(zone, n, l) end)
       end },
     }
     if self.open[zone] then
@@ -55,8 +56,8 @@ function tab:Refresh()
           indent = 1, icon = UI.STATUS_ICON[q.s], dim = q.s == "done" or q.s == "locked",
           text = (story and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "") .. UI.QuestLabel(q.e),
           right = UI.STATUS_LABEL[q.s],
-          tooltip = UI.Lines(q.e.name, "Category: " .. q.e.cat, story and ("Story: " .. story.name),
-            "Requires level " .. (q.e.req or 0), UI.STORY_HINT),
+          tooltip = UI.Lines(q.e.name, string.format(L["Category: %s"], L[LW.Categories.labels[q.e.cat] or q.e.cat]), story and string.format(L["Story: %s"], L[story.name]),
+            string.format(L["Requires level %d"], q.e.req or 0), UI.STORY_HINT),
           onClick = function() LW.Main:ShowStory(q.e.id) end,
         }
       end

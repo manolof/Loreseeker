@@ -2,6 +2,7 @@
 -- Forever uses the map-attached log (QuestMapFrame.DetailsFrame); Classic-style clients use
 -- QuestLogFrame. Spoken puts its buttons at the right of the header, so ours sits on the left.
 local _, LW = ...
+local L = LW.L
 
 local QL = {}
 LW.QuestLogLink = QL
@@ -16,8 +17,8 @@ local function makeButton(parent)
   b:SetScript("OnClick", function(self) if self.questID then LW.Main:ShowStory(self.questID) end end)
   b:SetScript("OnEnter", function(self)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    GameTooltip:SetText("Loreseeker")
-    GameTooltip:AddLine("Open this quest's storyline.", 1, 1, 1)
+    GameTooltip:SetText(L["Loreseeker"])
+    GameTooltip:AddLine(L["Open this quest's storyline."], 1, 1, 1)
     GameTooltip:Show()
   end)
   b:SetScript("OnLeave", function() GameTooltip:Hide() end)

@@ -1,8 +1,9 @@
 -- Journal tab: every quest story you've read, by zone, on a parchment page.
 local _, LW = ...
+local L = LW.L
 local UI = LW.UI
 
-local tab = { key = "journal", label = "Journal" }
+local tab = { key = "journal", label = L["Journal"] }
 
 local TEXT_COLOR = { 0.18, 0.12, 0.06 } -- Blizzard's quest-text brown on parchment
 
@@ -34,18 +35,18 @@ function tab:Build(panel)
   text:SetSpacing(2)
   self.scroll, self.content, self.text = scroll, content, text
 
-  self.listenOffer = UI.Button(panel, "Listen: offer", 110, 22)
+  self.listenOffer = UI.Button(panel, L["Listen: offer"], 110, 22)
   self.listenOffer:SetPoint("BOTTOMLEFT", page, "BOTTOMLEFT", 0, -28)
   self.listenOffer:SetScript("OnClick", function() if tab.selected then LW.Voice:Toggle(tab.selected, "accept") end end)
-  self.listenDone = UI.Button(panel, "Listen: turn-in", 120, 22)
+  self.listenDone = UI.Button(panel, L["Listen: turn-in"], 120, 22)
   self.listenDone:SetPoint("LEFT", self.listenOffer, "RIGHT", 6, 0)
   self.listenDone:SetScript("OnClick", function() if tab.selected then LW.Voice:Toggle(tab.selected, "complete") end end)
   LW:Listen("VOICE_STATE", function() tab:UpdateListen() end)
-  self.storyBtn = UI.Button(panel, "Storyline", 90, 22)
+  self.storyBtn = UI.Button(panel, L["Storyline"], 90, 22)
   self.storyBtn:SetPoint("BOTTOMRIGHT", page, "BOTTOMRIGHT", 0, -28)
   self.storyBtn:SetScript("OnClick", function() if tab.selected then LW.Main:ShowStory(tab.selected) end end)
 
-  self.text:SetText("Pick a quest on the left. Every quest you read from now on is saved here.")
+  self.text:SetText(L["Pick a quest on the left. Every quest you read from now on is saved here."])
 end
 
 local function section(title, body)
@@ -57,11 +58,11 @@ function tab:Show(questId)
   self.selected = questId
   local p = LW.Journal:Get(questId)
   if not p then
-    self.text:SetText("Nothing recorded for this quest yet.")
+    self.text:SetText(L["Nothing recorded for this quest yet."])
   else
-    local body = section("Description", p.detail) .. section("Objectives", p.objective) ..
-      section("Progress", p.progress) .. section("Completion", p.complete)
-    if not p.captured then body = body .. "|cff555555(Text from Spoken's library; your own copy is saved the next time you read it.)|r" end
+    local body = section(L["Description"], p.detail) .. section(L["Objectives"], p.objective) ..
+      section(L["Progress"], p.progress) .. section(L["Completion"], p.complete)
+    if not p.captured then body = body .. L["|cff555555(Text from Spoken's library; your own copy is saved the next time you read it.)|r"] end
     self.text:SetText(p.title .. "\n\n" .. body)
   end
   local w = self.scroll:GetWidth()
@@ -77,10 +78,10 @@ end
 function tab:UpdateListen()
   local id = self.selected
   if not id then return end
-  for _, b in ipairs({ { self.listenOffer, "accept", "Listen: offer" }, { self.listenDone, "complete", "Listen: turn-in" } }) do
+  for _, b in ipairs({ { self.listenOffer, "accept", L["Listen: offer"] }, { self.listenDone, "complete", L["Listen: turn-in"] } }) do
     local button, event, label = b[1], b[2], b[3]
     if LW.Voice:IsPlaying(id, event) then
-      button:SetText("Stop")
+      button:SetText(L["Stop"])
       button:Enable()
     else
       button:SetText(label)
@@ -94,7 +95,7 @@ function tab:Refresh()
   local rows = {}
   for _, id in ipairs(ids) do
     local title, zone = LW.Journal:Head(id)
-    rows[#rows + 1] = { id = id, title = title, zone = zone and LW.ZoneName(zone) or "Unknown" }
+    rows[#rows + 1] = { id = id, title = title, zone = zone and LW.ZoneName(zone) or L["Unknown"] }
   end
   table.sort(rows, function(a, b)
     if a.zone ~= b.zone then return a.zone < b.zone end
@@ -108,7 +109,7 @@ function tab:Refresh()
     end
     items[#items + 1] = { indent = 1, text = r.title, onClick = function() tab:Show(r.id) end }
   end
-  if #items == 0 then items[1] = { dim = true, text = "No stories yet. Go read some quests!" } end
+  if #items == 0 then items[1] = { dim = true, text = L["No stories yet. Go read some quests!"] } end
   self.list:SetItems(items)
   if self.selected then self:Show(self.selected) else
     self.listenOffer:Disable(); self.listenDone:Disable()

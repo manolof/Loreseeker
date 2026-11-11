@@ -2,6 +2,7 @@
 -- and completion), so the story can be reread later by zone or storyline. For quests done
 -- before Loreseeker was installed, the Journal falls back to Spoken's text corpus when present.
 local _, LW = ...
+local L = LW.L
 
 local J = {}
 LW.Journal = J
@@ -88,7 +89,7 @@ function J:Get(questId)
   if not j and not accept and not complete then return nil end
   return {
     id = questId,
-    title = (j and j.title) or (e and e.name) or ("Quest " .. questId),
+    title = (j and j.title) or (e and e.name) or string.format(L["Quest %d"], questId),
     zone = (j and j.zone) or (e and e.zone),
     detail = (j and j.detail) or accept,
     objective = j and j.objective,
@@ -102,7 +103,7 @@ end
 function J:Head(questId)
   local j = LW.char.journal[questId]
   local e = LW.Index:Get(questId)
-  return (j and j.title) or (e and e.name) or ("Quest " .. questId), (j and j.zone) or (e and e.zone)
+  return (j and j.title) or (e and e.name) or string.format(L["Quest %d"], questId), (j and j.zone) or (e and e.zone)
 end
 
 --- Journal listing: captured quests plus completed quests Spoken has text for.

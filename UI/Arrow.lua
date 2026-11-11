@@ -1,5 +1,6 @@
 -- Waypoint arrow (stock minimap arrow art) plus the native map pin via C_Map.SetUserWaypoint.
 local _, LW = ...
+local L = LW.L
 
 local AR = {}
 LW.Arrow = AR
@@ -28,9 +29,9 @@ function AR:Create()
   f:SetScript("OnEnter", function(self)
     if not AR.point then return end
     GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-    GameTooltip:SetText(AR.title or "Loreseeker")
+    GameTooltip:SetText(AR.title or L["Loreseeker"])
     GameTooltip:AddLine(string.format("%s %.1f, %.1f", LW.MapName(AR.point.map), AR.point.x * 100, AR.point.y * 100), 1, 1, 1)
-    GameTooltip:AddLine("Drag to move.", 0.6, 0.6, 0.6)
+    GameTooltip:AddLine(L["Drag to move."], 0.6, 0.6, 0.6)
     GameTooltip:Show()
   end)
   f:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -79,7 +80,7 @@ function AR:Update()
   if not (px and wx) or inst ~= pinst then
     f.tex:SetRotation(0)
     f.tex:SetVertexColor(0.6, 0.6, 0.6)
-    setDist(f, "Travel to " .. LW.MapName(p.map))
+    setDist(f, string.format(L["Travel to %s"], LW.MapName(p.map)))
     return
   end
   local angle, dist = HBD:GetWorldVector(pinst, px, py, wx, wy)
@@ -91,7 +92,7 @@ function AR:Update()
   f.tex:SetVertexColor(1, 1, 1)
   f.tex:SetRotation(angle - facing)
   if dist < ARRIVED_YARDS then
-    setDist(f, "You're here")
+    setDist(f, L["You're here"])
   else
     setDist(f, math.floor(dist) .. " yd")
   end

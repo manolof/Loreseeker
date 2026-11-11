@@ -108,6 +108,7 @@ end
 --- The display name: curated storyline name wins over the root quest's name.
 function CH:Name(chain)
   if not chain.curated then return chain.name end
-  if chain.part then return chain.curated.name .. ": " .. chain.name end
-  return chain.curated.name
+  local name = LW.L[chain.curated.name] -- storyline names are translatable; quest names come translated
+  if chain.part then return name .. ": " .. chain.name end
+  return name
 end

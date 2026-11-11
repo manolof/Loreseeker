@@ -1,5 +1,6 @@
 -- Shared widgets built only from stock Blizzard templates, textures and fonts.
 local _, LW = ...
+local L = LW.L
 
 local UI = {}
 LW.UI = UI
@@ -30,8 +31,8 @@ UI.STATUS_ICON = {
 }
 
 UI.STATUS_LABEL = {
-  done = "Done", active = "In your log", now = "Available", group = "Group up", later = "Later",
-  locked = "Locked", skipped = "Skipped", excluded = "Alternative done", off = "Off",
+  done = L["Done"], active = L["In your log"], now = L["Available"], group = L["Group up"], later = L["Later"],
+  locked = L["Locked"], skipped = L["Skipped"], excluded = L["Alternative done"], off = L["Off"],
 }
 
 --- Blizzard's own difficulty color for a quest level.
@@ -316,23 +317,23 @@ function UI.SkipMenu(owner, task, extra)
   local items = {}
   for _, it in ipairs(extra or {}) do items[#items + 1] = it end
   if task.kind == "accept" then
-    items[#items + 1] = { text = "NPC won't offer this", func = function() LW.Offers:Mark(e.id) end }
+    items[#items + 1] = { text = L["NPC won't offer this"], func = function() LW.Offers:Mark(e.id) end }
   end
   for _, it in ipairs({
-    { text = "Skip this quest", func = function()
-      LW.Skips:Prompt("Skip quest: " .. e.name, function(n, l) LW.Skips:AddQuest(e.id, n, l) end) end },
-    { text = "Skip this whole storyline", func = function()
-      LW.Skips:Prompt("Skip the storyline of: " .. e.name, function(n, l) LW.Skips:AddChain(e.id, n, l) end) end },
-    { text = "Skip the area around me", func = function()
-      LW.Skips:Prompt("Skip the area around you (" .. (GetSubZoneText() or "") .. ")", function(n, l) LW.Skips:AddAreaHere(nil, n, l) end) end },
-    { text = "Skip zone: " .. LW.MapName(task.map), func = function()
+    { text = L["Skip this quest"], func = function()
+      LW.Skips:Prompt(string.format(L["Skip quest: %s"], e.name), function(n, l) LW.Skips:AddQuest(e.id, n, l) end) end },
+    { text = L["Skip this whole storyline"], func = function()
+      LW.Skips:Prompt(string.format(L["Skip the storyline of: %s"], e.name), function(n, l) LW.Skips:AddChain(e.id, n, l) end) end },
+    { text = L["Skip the area around me"], func = function()
+      LW.Skips:Prompt(string.format(L["Skip the area around you (%s)"], GetSubZoneText() or ""), function(n, l) LW.Skips:AddAreaHere(nil, n, l) end) end },
+    { text = string.format(L["Skip zone: %s"], LW.MapName(task.map)), func = function()
       local area = LW.Adapter:AreaForMap(task.map)
-      if not area then LW:Print("Unknown zone.") return end
-      LW.Skips:Prompt("Skip the zone " .. LW.MapName(task.map), function(n, l) LW.Skips:AddZone(area, n, l) end) end },
-    { text = "Not now (snooze 10 min)", func = function() LW.Router:Snooze(task) end },
+      if not area then LW:Print(L["Unknown zone."]) return end
+      LW.Skips:Prompt(string.format(L["Skip the zone %s"], LW.MapName(task.map)), function(n, l) LW.Skips:AddZone(area, n, l) end) end },
+    { text = L["Not now (snooze 10 min)"], func = function() LW.Router:Snooze(task) end },
   }) do items[#items + 1] = it end
   UI.Menu(owner, items)
 end
 
 --- Hover hint shared by clickable quest rows.
-UI.STORY_HINT = "Click: open its storyline."
+UI.STORY_HINT = L["Click: open its storyline."]

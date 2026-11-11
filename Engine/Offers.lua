@@ -4,6 +4,7 @@
 -- route and waits in the Revisit tab. It clears itself the moment that NPC offers it, or
 -- after you level up (prerequisites may have changed).
 local _, LW = ...
+local L = LW.L
 
 local O = {}
 LW.Offers = O
@@ -164,8 +165,8 @@ LW:OnEvent("PLAYER_TARGET_CHANGED", function()
     if watch.sawDialog or (status ~= "now" and status ~= "group") or targetNpcId() ~= npc or haveQuest(e.id) then return end
     notOffered()[e.id] = { npc = npc, level = UnitLevel("player"), t = time() }
     LW:Log("offers", "%d %s NOT offered by npc %d (targeted, standing next to it, no quest dialog)", e.id, e.name, npc)
-    LW:Print((LibQuestieDB.Npc.Get(npc, "name") or "This NPC") .. " doesn't seem to offer [" .. e.name
-      .. "]. Moved to Revisit (press Retry there if that's wrong).")
+    LW:Print(string.format(L["%s doesn't seem to offer [%s]. Moved to Revisit (press Retry there if that's wrong)."],
+      LibQuestieDB.Npc.Get(npc, "name") or L["This NPC"], e.name))
     LW:RequestRefresh("offers")
     LW:Fire("SKIPS_CHANGED")
   end)

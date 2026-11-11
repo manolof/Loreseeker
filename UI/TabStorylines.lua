@@ -1,8 +1,9 @@
 -- Storylines tab: curated stories first, then every other long chain, with progress.
 local _, LW = ...
+local L = LW.L
 local UI = LW.UI
 
-local tab = { key = "stories", label = "Storylines", open = {} }
+local tab = { key = "stories", label = L["Storylines"], open = {} }
 
 function tab:Build(panel)
   self.list = UI.List(panel)
@@ -19,16 +20,16 @@ local function chainRow(chain, items, open, indent)
   items[#items + 1] = {
     icon = curated and UI.ICONS.story or UI.ICONS.generic,
     indent = indent,
-    text = string.format("%s  |cffffffff%d/%d|r", LW.Chains:Name(chain), done, total),
-    right = string.format("%s - lvl %d", zone, chain.minLevel or 0),
+    text = string.format(L["%s  |cffffffff%d/%d|r"], LW.Chains:Name(chain), done, total),
+    right = string.format(L["%s - lvl %d"], zone, chain.minLevel or 0),
     bar = { done, total },
-    tooltip = UI.Lines(LW.Chains:Name(chain), curated and curated.blurb, "Starts with: " .. chain.root.name,
-      "Click to show its quests."),
+    tooltip = UI.Lines(LW.Chains:Name(chain), curated and curated.blurb and L[curated.blurb], string.format(L["Starts with: %s"], chain.root.name),
+      L["Click to show its quests."]),
     onClick = function() open[chain.id] = not open[chain.id]; tab:Refresh() end,
     dim = done == total,
     -- built-in storylines are fixed; any other chain can be starred (and unstarred) by you
     button = (not curated or curated.user) and {
-      text = LW.Storylines:IsStarred(chain) and "Unstar" or "Star",
+      text = LW.Storylines:IsStarred(chain) and L["Unstar"] or L["Star"],
       onClick = function() LW.Storylines:ToggleStar(chain); tab:Refresh() end,
     } or nil,
   }
@@ -64,20 +65,20 @@ function tab:Refresh()
 
   local items = {}
   if focus then
-    items[#items + 1] = { header = true, text = "Selected storyline", right = "click to clear",
+    items[#items + 1] = { header = true, text = L["Selected storyline"], right = L["click to clear"],
       onClick = function() tab.focusChain, tab.focusQuest = nil, nil; tab:Refresh() end }
     chainRow(focus, items, self.open)
   end
   -- Notable storylines, grouped by zone; zones ordered by their lowest-level story.
   local zones, order = {}, {}
   for _, chain in ipairs(curated) do
-    local zone = chain.curated.zone or "Other"
+    local zone = chain.curated.zone or L["Other"]
     if not zones[zone] then zones[zone] = {}; order[#order + 1] = zone end
     table.insert(zones[zone], chain)
   end
-  items[#items + 1] = { header = true, text = "Notable storylines (" .. #curated .. ")" }
+  items[#items + 1] = { header = true, text = string.format(L["Notable storylines (%d)"], #curated) }
   for _, zone in ipairs(order) do
-    items[#items + 1] = { indent = 1, header = true, text = zone }
+    items[#items + 1] = { indent = 1, header = true, text = L[zone] }
     for _, chain in ipairs(zones[zone]) do
       chainRow(chain, items, self.open, 1)
       -- a storyline's side chains appear under it once it is opened
@@ -88,7 +89,7 @@ function tab:Refresh()
       end
     end
   end
-  items[#items + 1] = { header = true, text = "Other quest chains (" .. LW.Chains.STORY_MIN .. "+ quests)" }
+  items[#items + 1] = { header = true, text = string.format(L["Other quest chains (%d+ quests)"], LW.Chains.STORY_MIN) }
   for _, chain in ipairs(other) do chainRow(chain, items, self.open) end
   self.list:SetItems(items)
 end
@@ -102,7 +103,7 @@ function LW.Main:ShowStory(questId)
     if questId and LW.Journal:Get(questId) then
       self:ShowJournal(questId)
     else
-      LW:Print((e and e.name or "This quest") .. " is a standalone quest, not part of a storyline.")
+      LW:Print(string.format(L["%s is a standalone quest, not part of a storyline."], e and e.name or L["This quest"]))
     end
     return
   end

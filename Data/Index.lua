@@ -54,6 +54,7 @@ local function buildEntry(id)
 
   local sort = Q(id, "zoneOrSort") or 0
   local f = {
+    id = id,
     name = name,
     sort = sort,
     requiredRaces = Q(id, "requiredRaces"),

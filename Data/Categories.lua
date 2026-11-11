@@ -1,21 +1,22 @@
 -- Quest categories (what the Options checkboxes switch on and off) and static applicability
 -- (could this character EVER do this quest: race, class, profession).
 local _, LW = ...
+local L = LW.L
 
 local C = {}
 LW.Categories = C
 
 C.order = { "general", "dungeon", "raid", "class", "profession", "donation", "repeatable", "event", "pvp" }
 C.labels = {
-  donation = "Donation quests (cloth & material turn-ins)",
-  general = "World quests",
-  dungeon = "Dungeon quests",
-  raid = "Raid & attunement quests",
-  class = "Class quests",
-  profession = "Profession quests (ones you know)",
-  repeatable = "Repeatable & daily quests",
-  event = "Seasonal event quests",
-  pvp = "Battleground quests",
+  donation = L["Donation quests (cloth & material turn-ins)"],
+  general = L["World quests"],
+  dungeon = L["Dungeon quests"],
+  raid = L["Raid & attunement quests"],
+  class = L["Class quests"],
+  profession = L["Profession quests (ones you know)"],
+  repeatable = L["Repeatable & daily quests"],
+  event = L["Seasonal event quests"],
+  pvp = L["Battleground quests"],
 }
 
 -- Negative zoneOrSort values are quest sorts (QuestieDB sortKeys).
@@ -66,7 +67,9 @@ function C:Classify(f)
   if PVP_SORT[sort] or PVP_ZONES[sort] then return "pvp" end
   if EVENT_SORT[sort] or LW.HasBit(f.specialFlags, 2) then return "event" end
   if LW.HasBit(f.specialFlags, 1) or LW.HasBit(f.questFlags, QUEST_FLAGS_DAILY) then return "repeatable" end
-  if f.name and f.name:find("Donation", 1, true) then return "donation" end
+  if (f.id and LW.DonationQuests and LW.DonationQuests[f.id]) or (f.name and f.name:find("Donation", 1, true)) then
+    return "donation"
+  end
   if RAID_ZONES[sort] then return "raid" end
   if f.isDungeon then return "dungeon" end
   if CLASS_SORT[sort] or (f.requiredClasses and f.requiredClasses ~= 0) then return "class" end

@@ -247,8 +247,17 @@ function S:Resolve()
   local byName = LW.Index.byName
   for _, s in ipairs(self.list) do
     local chains, found = {}, false
-    for _, qname in ipairs(s.quests) do
-      for _, id in ipairs(byName[qname] or {}) do
+    -- Quest IDs (generated; the same in every client language). The names are only the
+    -- fallback for a storyline added without regenerating the ID file.
+    local ids = LW.StorylineIds and LW.StorylineIds[s.name]
+    if not ids then
+      ids = {}
+      for _, qname in ipairs(s.quests) do
+        for _, id in ipairs(byName[qname] or {}) do ids[#ids + 1] = id end
+      end
+    end
+    do
+      for _, id in ipairs(ids) do
         local e = LW.Index.quests[id]
         local chain = e and LW.Chains:Get(e.chain)
         if chain then
@@ -260,7 +269,7 @@ function S:Resolve()
         elseif e then
           e.curated = s -- a standalone quest can be a storyline too
         end
-        found = true
+        if e then found = true end -- only quests this character can do count
       end
     end
     if not found then table.insert(self.unresolved, s.name) end

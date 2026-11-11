@@ -1,5 +1,6 @@
 -- The main window: a stock Blizzard portrait frame with bottom tabs.
 local _, LW = ...
+local L = LW.L
 
 local M = { tabs = {} }
 LW.Main = M
@@ -32,7 +33,7 @@ function M:Create()
   LW.UI.RestorePosition(f, "main", "CENTER", UIParent, "CENTER", 0, 40)
   table.insert(UISpecialFrames, "LoreseekerFrame")
 
-  local title = "Loreseeker"
+  local title = L["Loreseeker"]
   if f.SetTitle then f:SetTitle(title)
   elseif f.TitleText then f.TitleText:SetText(title)
   elseif f.TitleContainer and f.TitleContainer.TitleText then f.TitleContainer.TitleText:SetText(title) end
@@ -109,7 +110,7 @@ end
 
 function M:RefreshCurrent()
   local c = LW.Eligibility.counts or {}
-  self.frame.summary:SetText(string.format("%d done  -  %d available  -  %d in log  -  %d later  -  %d skipped",
+  self.frame.summary:SetText(string.format(L["%d done  -  %d available  -  %d in log  -  %d later  -  %d skipped"],
     c.done or 0, c.now or 0, c.active or 0, c.later or 0, c.skipped or 0))
   local def = self.tabs[self.selected or 1]
   if def and def.Refresh then

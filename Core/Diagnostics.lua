@@ -5,6 +5,7 @@
 --   log     - a rolling log of what the addon decided (refreshes, routes, skips, timings)
 --   reports - `/lore bug <what happened>` snapshots of your exact situation
 local ADDON, LW = ...
+local L = LW.L
 
 local D = {}
 LW.Diag = D
@@ -91,14 +92,14 @@ function D:Report(text)
   end
   ctx.upcoming = upcoming
   push(store().reports, ctx, MAX_REPORTS)
-  LW:Print("Bug report saved. Type /reload to write it to disk, then report it at " .. LW.ISSUES ..
-    " and attach WTF/Account/<account>/SavedVariables/Loreseeker.lua")
+  LW:Print(string.format(L["Bug report saved. Type /reload to write it to disk, then report it at %s and attach %s"],
+    LW.ISSUES, "WTF/Account/<account>/SavedVariables/Loreseeker.lua"))
 end
 
 function D:Clear()
   LoreseekerDB.diag = nil
   store()
-  LW:Print("Diagnostics cleared.")
+  LW:Print(L["Diagnostics cleared."])
 end
 
 -- Chain into the global error handler: record ours, always pass everything on.

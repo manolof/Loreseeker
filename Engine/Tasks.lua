@@ -6,6 +6,7 @@
 --   generic - in your log, but nothing to locate
 -- Points are { map = uiMapID, x = 0..1, y = 0..1, area = areaId }.
 local _, LW = ...
+local L = LW.L
 
 local T = {
   list = {},     -- routable tasks
@@ -169,7 +170,7 @@ local function acceptTasks(e, out)
   local startedBy = LibQuestieDB.Quest.Get(e.id, "startedBy") or {}
   local target, count = whoNames(startedBy[1], startedBy[2])
   if count > 0 then
-    cached[#cached + 1] = newTask(e, "accept", "Accept", function(p)
+    cached[#cached + 1] = newTask(e, "accept", L["Accept"], function(p)
       for _, id in ipairs(startedBy[1] or {}) do npcPoints(p, id) end
       for _, id in ipairs(startedBy[2] or {}) do objPoints(p, id) end
     end, { target = target })
@@ -178,7 +179,7 @@ local function acceptTasks(e, out)
   for _, itemId in ipairs(startedBy[3] or {}) do
     local drops = safe(Item, itemId, "npcDrops") or {}
     local item = safe(Item, itemId, "name") or "item"
-    cached[#cached + 1] = newTask(e, "accept", "Find " .. item .. " (starts the quest)", function(p)
+    cached[#cached + 1] = newTask(e, "accept", string.format(L["Find %s (starts the quest)"], item), function(p)
       for _, id in ipairs(drops) do npcPoints(p, id) end
       for _, id in ipairs(safe(Item, itemId, "objectDrops") or {}) do objPoints(p, id) end
     end, { sub = "i" .. itemId, target = #drops > 0 and names(Npc, drops) or nil })
@@ -189,7 +190,7 @@ end
 
 local function turninTask(e, out)
   local finishedBy = LibQuestieDB.Quest.Get(e.id, "finishedBy") or {}
-  out[#out + 1] = newTask(e, "turnin", "Turn in", function(p)
+  out[#out + 1] = newTask(e, "turnin", L["Turn in"], function(p)
     for _, id in ipairs(finishedBy[1] or {}) do npcPoints(p, id) end
     for _, id in ipairs(finishedBy[2] or {}) do objPoints(p, id) end
   end, { target = (whoNames(finishedBy[1], finishedBy[2])) })
@@ -257,7 +258,7 @@ local function objectiveTasks(e, log, out)
     local name = o[2] or safe(Npc, o[1], "name")
     local done, line = finished(name)
     if not done then
-      out[#out + 1] = newTask(e, "kill", "Kill " .. (name or "?"), function(p) npcPoints(p, o[1]) end,
+      out[#out + 1] = newTask(e, "kill", string.format(L["Kill %s"], name or "?"), function(p) npcPoints(p, o[1]) end,
         { sub = "n" .. i, detail = line })
       made = made + 1
     end
@@ -266,7 +267,7 @@ local function objectiveTasks(e, log, out)
     local name = o[3] or safe(Npc, o[2], "name")
     local done, line = finished(name)
     if not done then
-      out[#out + 1] = newTask(e, "kill", name or "Objective", function(p)
+      out[#out + 1] = newTask(e, "kill", name or L["Objective"], function(p)
         for _, id in ipairs(o[1] or {}) do npcPoints(p, id) end
       end, { sub = "k" .. i, detail = line })
       made = made + 1
@@ -276,7 +277,7 @@ local function objectiveTasks(e, log, out)
     local name = o[2] or safe(Obj, o[1], "name")
     local done, line = finished(name)
     if not done then
-      out[#out + 1] = newTask(e, "object", "Use " .. (name or "?"), function(p) objPoints(p, o[1]) end,
+      out[#out + 1] = newTask(e, "object", string.format(L["Use %s"], name or "?"), function(p) objPoints(p, o[1]) end,
         { sub = "o" .. i, detail = line })
       made = made + 1
     end
@@ -295,28 +296,28 @@ local function objectiveTasks(e, log, out)
       local drops = safe(Item, itemId, "npcDrops") or {}
       local objectDrops = safe(Item, itemId, "objectDrops") or {}
       local rate = bestDropRate(itemId, drops)
-      local loot = newTask(e, "loot", "Collect " .. (name or "?"), function(p)
+      local loot = newTask(e, "loot", string.format(L["Collect %s"], name or "?"), function(p)
         for _, id in ipairs(drops) do npcPoints(p, id) end
         for _, id in ipairs(objectDrops) do objPoints(p, id) end
       end, { sub = "i" .. i, detail = line, slot = slot, need = need, dropRate = rate,
-        target = #drops > 0 and (names(Npc, drops) .. (rate and string.format(" (%d%% drop)", rate + 0.5) or "")) or nil })
+        target = #drops > 0 and (names(Npc, drops) .. (rate and " " .. string.format(L["(%d%% drop)"], rate + 0.5) or "")) or nil })
       if #loot.points > 0 or loot.points.skippedBy then out[#out + 1] = loot end
       local vendors = safe(Item, itemId, "vendors") or {}
       if #vendors > 0 then
-        out[#out + 1] = newTask(e, "buy", "Buy " .. (name or "?"), function(p)
+        out[#out + 1] = newTask(e, "buy", string.format(L["Buy %s"], name or "?"), function(p)
           for _, id in ipairs(vendors) do npcPoints(p, id) end
         end, { sub = "v" .. i, detail = line, slot = slot, target = names(Npc, vendors) })
       end
       -- Tradeable items (not "Quest" class items) can also be bought from players or crafted.
       if safe(Item, itemId, "class") ~= QUEST_ITEM_CLASS then
         if #auctionPoints() > 0 then
-          out[#out + 1] = newTask(e, "auction", "Buy " .. (name or "?") .. " at the Auction House", function(p)
+          out[#out + 1] = newTask(e, "auction", string.format(L["Buy %s at the Auction House"], name or "?"), function(p)
             for _, a in ipairs(auctionPoints()) do addPoint(p, a[3], a[4], a[5]) end
-          end, { sub = "a" .. i, detail = line, slot = slot, target = "Auctioneer" })
+          end, { sub = "a" .. i, detail = line, slot = slot, target = L["Auctioneer"] })
         end
         local profession = LW.Crafts:Profession(itemId)
         if profession then
-          out[#out + 1] = newTask(e, "craft", "Craft " .. (name or "?"), nil,
+          out[#out + 1] = newTask(e, "craft", string.format(L["Craft %s"], name or "?"), nil,
             { sub = "c" .. i, detail = line, slot = slot, target = profession })
         end
       end
@@ -325,12 +326,12 @@ local function objectiveTasks(e, log, out)
   end
   local trigger = LibQuestieDB.Quest.Get(e.id, "triggerEnd")
   if type(trigger) == "table" and type(trigger[2]) == "table" and not allFinished(log) then
-    out[#out + 1] = newTask(e, "explore", trigger[1] or "Explore", function(p) addSpawns(p, trigger[2]) end, { sub = "t" })
+    out[#out + 1] = newTask(e, "explore", trigger[1] or L["Explore"], function(p) addSpawns(p, trigger[2]) end, { sub = "t" })
     made = made + 1
   end
   if made == 0 then
     local line = log and log.objectives[1] and log.objectives[1].text
-    out[#out + 1] = newTask(e, "generic", "Work on the objectives", nil, { detail = line })
+    out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], nil, { detail = line })
   end
 end
 

@@ -2,6 +2,7 @@
 -- anything). Spoken ships generated voice-overs per quest. If it has none for a quest, fall
 -- back to the client's built-in text-to-speech reading the journal text.
 local _, LW = ...
+local L = LW.L
 
 local V = {}
 LW.Voice = V
@@ -214,7 +215,7 @@ function V:Play(questId, event)
   end
   LW:Log("voice", "nothing played for %d %s (text %s, C_VoiceChat.SpeakText %s)", questId, event,
     text and "yes" or "no", tostring(C_VoiceChat and C_VoiceChat.SpeakText ~= nil))
-  LW:Print("No voice-over for this quest line.")
+  LW:Print(L["No voice-over for this quest line."])
   return nil
 end
 

@@ -1,5 +1,6 @@
 -- Startup, refresh pipeline, event wiring and slash commands. Loaded last.
 local ADDON, LW = ...
+local L = LW.L
 
 ---------------------------------------------------------------------------------------------
 -- Refresh pipeline: status -> tasks -> route. Collapses bursts of requests into one job.
@@ -76,11 +77,11 @@ local function fail(msg)
 end
 
 local function start()
-  if not LibQuestieDB then return fail("QuestieDB is not loaded.") end
+  if not LibQuestieDB then return fail(L["QuestieDB is not loaded."]) end
   local ok, msg = LibQuestieDB.RequireContract(4)
   if not ok then return fail(msg) end
   if not LW.Adapter:Init() then
-    LW:Print("Questie's internals were not found; availability checks are limited.")
+    LW:Print(L["Questie's internals were not found; availability checks are limited."])
     LW:Log("boot", "adapter init failed")
   end
 
@@ -91,7 +92,7 @@ local function start()
   LW.Main:Create()
   LW.QuestLogLink:Setup()
   LW.StepFrame:Show(nil)
-  LW.StepFrame.frame.title:SetText("Reading the quest library...")
+  LW.StepFrame.frame.title:SetText(L["Reading the quest library..."])
 
   LW.Adapter:OnReady(function()
     LW.Index:Build(function()
@@ -121,7 +122,7 @@ LW:OnEvent("PLAYER_LOGIN", function()
   local ok, err = pcall(start)
   if not ok then
     LW.Diag:RecordError(err)
-    fail("Startup error: " .. tostring(err))
+    fail(string.format(L["Startup error: %s"], tostring(err)))
   end
 end)
 
@@ -151,59 +152,59 @@ end)
 
 local function status()
   local c = LW.Eligibility.counts or {}
-  LW:Print(string.format("v%s - %d quests apply to you (%d scanned), %d chains.", LW.version,
+  LW:Print(string.format(L["v%s - %d quests apply to you (%d scanned), %d chains."], LW.version,
     #LW.Index.list, LW.Index.scanned or 0, #LW.Chains.list))
-  LW:Print(string.format("done %d, in log %d, available %d, group %d, later %d, locked %d, skipped %d, off %d",
+  LW:Print(string.format(L["done %d, in log %d, available %d, group %d, later %d, locked %d, skipped %d, off %d"],
     c.done or 0, c.active or 0, c.now or 0, c.group or 0, c.later or 0, c.locked or 0, c.skipped or 0, c.off or 0))
-  LW:Print(string.format("%d routable tasks, %d blocked by skips.", #LW.Tasks.list, #LW.Tasks.blocked))
+  LW:Print(string.format(L["%d routable tasks, %d blocked by skips."], #LW.Tasks.list, #LW.Tasks.blocked))
 end
 
 local function questInfo(id)
   id = tonumber(id)
   local e = id and LW.Index:Get(id)
   if not e then
-    LW:Print("Quest " .. tostring(id) .. " is not in your index (other faction/class, no starter, or hidden).")
+    LW:Print(string.format(L["Quest %s is not in your index (other faction/class, no starter, or hidden)."], tostring(id)))
     return
   end
   local chain = LW.Chains:Get(e.chain)
-  LW:Print(string.format("%d %s - lvl %d (req %d), %s, zone %s", e.id, e.name, e.level, e.req, e.cat, LW.ZoneName(e.zone)))
-  LW:Print(string.format("status %s, doable %s, completed %s", tostring(LW.Eligibility:Status(id)),
+  LW:Print(string.format(L["%d %s - lvl %d (req %d), %s, zone %s"], e.id, e.name, e.level, e.req, e.cat, LW.ZoneName(e.zone)))
+  LW:Print(string.format(L["status %s, doable %s, completed %s"], tostring(LW.Eligibility:Status(id)),
     tostring(LW.Adapter:IsDoable(id)), tostring(LW.Adapter:IsCompleted(id))))
   local you = UnitLevel("player")
   local diff = LW.Eligibility:Level(e, you) - you
-  LW:Print(string.format("you %d, quest %+d levels (Later from %+d)%s, category %s %s", you, diff, LW.db.deferAt,
-    e.noCombat and ", delivery/talk only: 3 extra levels allowed" or "", e.cat,
-    LW.Categories:Enabled(e.cat) and "(on)" or "(OFF in Options)"))
+  LW:Print(string.format(L["you %d, quest %+d levels (Later from %+d)%s, category %s %s"], you, diff, LW.db.deferAt,
+    e.noCombat and L[", delivery/talk only: 3 extra levels allowed"] or "", e.cat,
+    LW.Categories:Enabled(e.cat) and L["(on)"] or L["(OFF in Options)"]))
   if LW.Eligibility:IsDeadBreadcrumb(e) then
-    LW:Print("Breadcrumb: you already have or did a quest from the NPC it sends you to, so the game won't offer it.")
+    LW:Print(L["Breadcrumb: you already have or did a quest from the NPC it sends you to, so the game won't offer it."])
   end
   if e.impliedPre then
     local a = LW.Index:Get(e.impliedPre)
-    LW:Print(string.format("Follow-up of %d %s (same name; the database lacks the link): needs that one first.",
+    LW:Print(string.format(L["Follow-up of %d %s (same name; the database lacks the link): needs that one first."],
       e.impliedPre, a and a.name or "?"))
   end
   local rec = LW.char.notOffered[id]
-  if rec then LW:Print(string.format("NPC %d didn't offer it to you at level %d (cleared on level-up or when offered).", rec.npc, rec.level)) end
+  if rec then LW:Print(string.format(L["NPC %d didn't offer it to you at level %d (cleared on level-up or when offered)."], rec.npc, rec.level)) end
   local skip = LW.Skips:ForQuest(e)
-  if skip then LW:Print("skipped by: " .. LW.Skips:Describe(skip)) end
+  if skip then LW:Print(string.format(L["Skipped by: %s"], LW.Skips:Describe(skip))) end
   if chain then
-    LW:Print(string.format("chain: %s (%d quests, step %d)%s", LW.Chains:Name(chain), chain.size, e.depth or 0,
+    LW:Print(string.format(L["chain: %s (%d quests, step %d)%s"], LW.Chains:Name(chain), chain.size, e.depth or 0,
       chain.curated and " - curated" or ""))
   end
 end
 
 local HELP = {
-  "/lore - open or close the window",
-  "/lore step | arrow - toggle the step panel / arrow",
-  "/lore status - counts",
-  "/lore quest <id> - why a quest has its status",
-  "/lore bug <what happened> - save a bug report with your situation (then report at " .. LW.ISSUES .. ")",
-  "/lore plan - print the planned trip, stop by stop",
-  "/lore travel - flight points Loreseeker thinks you know, and the plan for the current step",
-  "/lore voice [questId] - test voice-over step by step (default: current step)",
-  "/lore check - curated storylines not found for this character",
-  "/lore rebuild - rebuild the quest index from QuestieDB (normally automatic)",
-  "/lore diag clear - wipe saved diagnostics",
+  L["/lore - open or close the window"],
+  L["/lore step | arrow - toggle the step panel / arrow"],
+  L["/lore status - counts"],
+  L["/lore quest <id> - why a quest has its status"],
+  string.format(L["/lore bug <what happened> - save a bug report with your situation (then report at %s)"], LW.ISSUES),
+  L["/lore plan - print the planned trip, stop by stop"],
+  L["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"],
+  L["/lore voice [questId] - test voice-over step by step (default: current step)"],
+  L["/lore check - curated storylines not found for this character"],
+  L["/lore rebuild - rebuild the quest index from QuestieDB (normally automatic)"],
+  L["/lore diag clear - wipe saved diagnostics"],
 }
 
 SLASH_LORESEEKER1 = "/lore"
@@ -212,7 +213,7 @@ SLASH_LORESEEKER3 = "/lw" -- the old name, kept so habits keep working
 SlashCmdList.LORESEEKER = function(input)
   local cmd, rest = (input or ""):match("^%s*(%S*)%s*(.-)%s*$")
   cmd = (cmd or ""):lower()
-  if not LW.Main.frame then return fail("Loreseeker did not start; see /lore bug output after /reload.") end
+  if not LW.Main.frame then return fail(L["Loreseeker did not start; see /lore bug output after /reload."]) end
   if cmd == "" then LW.Main:Toggle()
   elseif cmd == "step" then LW.StepFrame:Toggle()
   elseif cmd == "arrow" then
@@ -223,7 +224,7 @@ SlashCmdList.LORESEEKER = function(input)
   elseif cmd == "bug" then LW.Diag:Report(rest)
   elseif cmd == "plan" then
     local stops = LW.Planner:Stops()
-    LW:Print(#LW.Planner.plan .. " planned steps in " .. #stops .. " stops" .. (LW.Router.planned and "" or " (not in use right now)"))
+    LW:Print(string.format(L["%d planned steps in %d stops"], #LW.Planner.plan, #stops) .. (LW.Router.planned and "" or (" " .. L["(not in use right now)"])))
     for i, stop in ipairs(stops) do
       local parts = {}
       for _, step in ipairs(stop.steps) do parts[#parts + 1] = step.task.text .. " [" .. step.task.quest.name .. "]" end
@@ -232,11 +233,11 @@ SlashCmdList.LORESEEKER = function(input)
   elseif cmd == "travel" then LW.Travel:Report()
   elseif cmd == "voice" then LW.Voice:Diagnose(tonumber(rest))
   elseif cmd == "check" then
-    if #LW.Storylines.unresolved == 0 then LW:Print("All curated storylines found.")
-    else LW:Print("Not found for this character (other faction is normal): " .. table.concat(LW.Storylines.unresolved, ", ")) end
+    if #LW.Storylines.unresolved == 0 then LW:Print(L["All curated storylines found."])
+    else LW:Print(string.format(L["Not found for this character (other faction is normal): %s"], table.concat(LW.Storylines.unresolved, ", "))) end
   elseif cmd == "rebuild" then
     LW.Index:Build(function() LW:RequestRefresh("rebuild", 0) end, true)
-    LW:Print("Rebuilding the quest index...")
+    LW:Print(L["Rebuilding the quest index..."])
   elseif cmd == "diag" and rest == "clear" then LW.Diag:Clear()
   elseif cmd == "options" then LW.Main:SelectKey("options")
   else for _, line in ipairs(HELP) do LW:Print(line) end end

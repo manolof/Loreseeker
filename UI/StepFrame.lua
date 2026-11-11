@@ -1,12 +1,13 @@
 -- The compact "do this next" panel, styled like a tooltip / quest tracker.
 local _, LW = ...
+local L = LW.L
 
 local SF = {}
 LW.StepFrame = SF
 
 local KIND_VERB = {
-  accept = "Accept", turnin = "Turn in", kill = "Kill", loot = "Collect", object = "Use",
-  buy = "Buy", auction = "Buy", craft = "Craft", explore = "Explore", generic = "Work on",
+  accept = L["Accept"], turnin = L["Turn in"], kill = L["Kill"], loot = L["Collect"], object = L["Use"],
+  buy = L["Buy"], auction = L["Buy"], craft = L["Craft"], explore = L["Explore"], generic = L["Work on"],
 }
 
 function SF:Create()
@@ -25,7 +26,7 @@ function SF:Create()
 
   f.header = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
   f.header:SetPoint("TOPLEFT", 10, -8)
-  f.header:SetText("Loreseeker")
+  f.header:SetText(L["Loreseeker"])
 
   f.icon = f:CreateTexture(nil, "ARTWORK")
   f.icon:SetSize(28, 28)
@@ -65,7 +66,7 @@ function SF:Create()
     if not SF.task then return end
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:SetText(SF.task.quest.name)
-    GameTooltip:AddLine("Click: open its storyline.", 1, 1, 1)
+    GameTooltip:AddLine(L["Click: open its storyline."], 1, 1, 1)
     GameTooltip:Show()
   end)
   f.link:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -74,13 +75,13 @@ function SF:Create()
   f.link:SetScript("OnDragStop", function() f:GetScript("OnDragStop")(f) end)
 
   local function btn(text, w) return LW.UI.Button(f, text, w, 20) end
-  f.skip = btn("Skip...", 64)
+  f.skip = btn(L["Skip..."], 64)
   f.skip:SetPoint("BOTTOMLEFT", 8, 8)
-  f.next = btn("Next", 56)
+  f.next = btn(L["Next"], 56)
   f.next:SetPoint("LEFT", f.skip, "RIGHT", 4, 0)
-  f.listen = btn("Listen", 62)
+  f.listen = btn(L["Listen"], 62)
   f.listen:SetPoint("LEFT", f.next, "RIGHT", 4, 0)
-  f.open = btn("Guide", 62)
+  f.open = btn(L["Guide"], 62)
   f.open:SetPoint("LEFT", f.listen, "RIGHT", 4, 0)
 
   f.skip:SetScript("OnClick", function(self) if SF.task then LW.UI.SkipMenu(self, SF.task) end end)
@@ -94,8 +95,8 @@ function SF:Create()
 
   f.next:SetScript("OnEnter", function(self)
     GameTooltip:SetOwner(self, "ANCHOR_TOP")
-    GameTooltip:SetText("Next suggestion")
-    GameTooltip:AddLine("Puts this step aside for 10 minutes.", 1, 1, 1, true)
+    GameTooltip:SetText(L["Next suggestion"])
+    GameTooltip:AddLine(L["Puts this step aside for 10 minutes."], 1, 1, 1, true)
     GameTooltip:Show()
   end)
   f.next:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -111,8 +112,8 @@ function SF:Show(task)
   self.task = task
   if not task then
     f.icon:SetTexture(LW.UI.ICONS.done)
-    f.title:SetText("Nothing to do here right now")
-    f.action:SetText("Check the Guide tab for Later and Group-up quests.")
+    f.title:SetText(L["Nothing to do here right now"])
+    f.action:SetText(L["Check the Guide tab for Later and Group-up quests."])
     f.where:SetText("")
     f.story:SetText("")
     LW.Arrow:SetTarget(nil)
@@ -121,7 +122,7 @@ function SF:Show(task)
   local e = task.quest
   -- header: how much more the plan has for you at this same spot ("on the way")
   local more = LW.Router.planned and LW.Planner:MoreHere() or 0
-  f.header:SetText(more > 0 and ("Loreseeker  -  " .. more .. " more to do right here") or "Loreseeker")
+  f.header:SetText(more > 0 and string.format(L["Loreseeker  -  %d more to do right here"], more) or L["Loreseeker"])
   f.icon:SetTexture(LW.UI.ICONS[task.kind] or LW.UI.ICONS.generic)
   f.title:SetText(LW.UI.QuestLabel(e))
 
@@ -130,32 +131,32 @@ function SF:Show(task)
     action = action .. " - " .. task.target
   end
   if task.kind == "accept" and LW.Router.logFull then
-    action = "|cffff2020Your quest log is full.|r Finish or drop a quest first."
+    action = L["|cffff2020Your quest log is full.|r Finish or drop a quest first."]
   end
   f.action:SetText(task.detail and (action .. "  |cffffffff(" .. task.detail .. ")|r") or action)
 
   local p = task.point
   local leg = task.legs and task.legs[1] -- a flight, boat or tram to take first
   if leg then
-    local more = #task.legs > 1 and (" (+" .. (#task.legs - 1) .. " more)") or ""
-    f.where:SetText(string.format("|cffffd100%s|r%s - about %s", leg.text, more, LW.Travel.FormatTime(task.travel)))
+    local more = #task.legs > 1 and (" " .. string.format(L["(+%d more)"], #task.legs - 1)) or ""
+    f.where:SetText(string.format(L["|cffffd100%s|r%s - about %s"], leg.text, more, LW.Travel.FormatTime(task.travel)))
   elseif task.kind == "craft" then
-    f.where:SetText("Open your " .. (task.target or "profession") .. " window: you know this recipe")
+    f.where:SetText(string.format(L["Open your %s window: you know this recipe"], task.target or L["profession"]))
   elseif p then
-    local dist = task.dist and string.format(" - %d yd", task.dist) or ""
+    local dist = task.dist and " - " .. string.format(L["%d yd"], task.dist) or ""
     f.where:SetText(string.format("%s %.1f, %.1f%s", LW.MapName(p.map), p.x * 100, p.y * 100, dist))
   else
-    f.where:SetText("No known location")
+    f.where:SetText(L["No known location"])
   end
 
   local chain = LW.Chains:Get(e.chain)
   local curated = LW.Storylines:For(e)
   if chain then
     local done, total = LW.Chains:Progress(chain)
-    f.story:SetText(string.format("%sStory: %s - %d/%d", curated and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "",
+    f.story:SetText(string.format("%s" .. L["Story: %s - %d/%d"], curated and "|TInterface\\Icons\\INV_Misc_Book_09:12|t " or "",
       LW.Chains:Name(chain), done, total))
   elseif curated then
-    f.story:SetText("|TInterface\\Icons\\INV_Misc_Book_09:12|t Story: " .. curated.name)
+    f.story:SetText("|TInterface\\Icons\\INV_Misc_Book_09:12|t " .. string.format(L["Story: %s"], L[curated.name]))
   else
     f.story:SetText("")
   end
@@ -173,10 +174,10 @@ function SF:UpdateListen()
   if not (f and t) then return end
   local event = t.kind == "turnin" and "complete" or "accept"
   if LW.Voice:IsPlaying(t.quest.id, event) then
-    f.listen:SetText("Stop")
+    f.listen:SetText(L["Stop"])
     f.listen:Enable()
   else
-    f.listen:SetText("Listen")
+    f.listen:SetText(L["Listen"])
     if LW.Voice:CanPlay(t.quest.id, event) then f.listen:Enable() else f.listen:Disable() end
   end
 end

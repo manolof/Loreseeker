@@ -1,11 +1,12 @@
 -- Options tab: what counts, how far ahead, lore weight, display, and the PvP preset.
 local _, LW = ...
+local L = LW.L
 local UI = LW.UI
 
-local tab = { key = "options", label = "Options", widgets = {} }
+local tab = { key = "options", label = L["Options"], widgets = {} }
 
-local DEFER = { [1] = "+1 (yellow)", [2] = "+2 (yellow)", [3] = "orange (+3)", [4] = "orange (+4)", [5] = "red (+5)", [6] = "+6", [7] = "+7", [8] = "+8", [9] = "+9", [10] = "+10" }
-local LORE = { [0] = "off", [1] = "light", [2] = "normal", [3] = "lore first" }
+local DEFER = { [1] = L["+1 (yellow)"], [2] = L["+2 (yellow)"], [3] = L["orange (+3)"], [4] = L["orange (+4)"], [5] = L["red (+5)"], [6] = "+6", [7] = "+7", [8] = "+8", [9] = "+9", [10] = "+10" }
+local LORE = { [0] = "off", [1] = "light", [2] = "normal", [3] = L["lore first"] }
 
 local function changed() LW:RequestRefresh("options") end
 
@@ -30,7 +31,7 @@ function tab:Build(panel)
     y = y - 26
   end
 
-  header("What counts toward \"everything\"")
+  header(L["What counts toward \"everything\""])
   for _, cat in ipairs(LW.Categories.order) do
     place(UI.Check(c, LW.Categories.labels[cat],
       function() return LW.db.categories[cat] end,
@@ -38,42 +39,42 @@ function tab:Build(panel)
   end
 
   y = y - 8
-  header("Level band")
-  place(UI.Stepper(c, "Move quests to Later when they are this far above your level", 1, 10,
+  header(L["Level band"])
+  place(UI.Stepper(c, L["Move quests to Later when they are this far above your level"], 1, 10,
     function() return LW.db.deferAt end, function(v) LW.db.deferAt = v; changed() end,
     function(v) return DEFER[v] or ("+" .. v) end))
-  place(UI.Stepper(c, "Dungeon quests up to this many levels above you", 0, 10,
+  place(UI.Stepper(c, L["Dungeon quests up to this many levels above you"], 0, 10,
     function() return LW.db.dungeonRange end, function(v) LW.db.dungeonRange = v; changed() end,
     function(v) return "+" .. v end))
 
   y = y - 8
-  header("Lore")
-  place(UI.Stepper(c, "Story priority", 0, 3,
+  header(L["Lore"])
+  place(UI.Stepper(c, L["Story priority"], 0, 3,
     function() return LW.db.loreWeight end, function(v) LW.db.loreWeight = v; LW.Router:Route() end,
     function(v) return LORE[v] end))
 
   y = y - 8
-  header("Travel")
-  place(UI.Check(c, "Use flight paths, boats and the tram when choosing the next step",
+  header(L["Travel"])
+  place(UI.Check(c, L["Use flight paths, boats and the tram when choosing the next step"],
     function() return LW.db.useTravel end, function(v) LW.db.useTravel = v; LW.Router:Route() end))
 
-  place(UI.Check(c, "Plan the trip ahead (up to 16 steps) instead of one step at a time",
+  place(UI.Check(c, L["Plan the trip ahead (up to 16 steps) instead of one step at a time"],
     function() return LW.db.usePlanner end, function(v) LW.db.usePlanner = v; LW.Router:Route(); LW.Planner:Request() end))
 
   y = y - 8
-  header("Display")
-  place(UI.Check(c, "Show the step panel", function() return LW.db.showStep end,
+  header(L["Display"])
+  place(UI.Check(c, L["Show the step panel"], function() return LW.db.showStep end,
     function(v) LW.db.showStep = v; if v then LW.StepFrame.frame:Show() else LW.StepFrame.frame:Hide() end end))
-  place(UI.Check(c, "Show the waypoint arrow", function() return LW.db.showArrow end,
+  place(UI.Check(c, L["Show the waypoint arrow"], function() return LW.db.showArrow end,
     function(v) LW.db.showArrow = v; if v and LW.Arrow.point then LW.Arrow.frame:Show() else LW.Arrow.frame:Hide() end end))
 
   y = y - 8
-  header("PvP server: skip contested zones")
+  header(L["PvP server: skip contested zones"])
   local note = c:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
   note:SetPoint("TOPLEFT", 8, y)
   note:SetWidth(600)
   note:SetJustifyH("LEFT")
-  note:SetText("Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me.")
+  note:SetText(L["Ticked zones are skipped entirely; their quests wait in the Revisit tab. For part of a zone, stand there and use Skip... > Skip the area around me."])
   y = y - 30
   local col = 0
   for _, z in ipairs(LW.Skips.contested) do

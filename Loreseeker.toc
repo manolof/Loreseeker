@@ -19,11 +19,23 @@ Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 
 Core\Init.lua
+Core\Locale.lua
+Locales\deDE.lua
+Locales\esES.lua
+Locales\esMX.lua
+Locales\frFR.lua
+Locales\itIT.lua
+Locales\koKR.lua
+Locales\ptBR.lua
+Locales\ruRU.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
 Core\Diagnostics.lua
 Core\QuestieAdapter.lua
 Data\Categories.lua
 Data\Index.lua
 Data\Chains.lua
+Data\GeneratedIds.lua
 Data\Storylines.lua
 Data\TravelData.lua
 Engine\Skips.lua
