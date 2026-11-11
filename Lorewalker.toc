@@ -1,0 +1,47 @@
+## Interface: 16001
+## Title: Lorewalker
+## Notes: Do every quest worth doing. A dynamic, lore-first quest guide for WoW Forever, built on Questie.
+## Version: 0.2.0
+## IconTexture: Interface\Icons\INV_Misc_Book_11
+## X-License: GPLv3
+## Category-enUS: Quests
+## Dependencies: QuestieDB, Questie
+## OptionalDeps: Spoken, Spoken_Quests
+## SavedVariables: LorewalkerDB
+## SavedVariablesPerCharacter: LorewalkerCharDB
+
+# Bundled libraries (LibStub keeps only the newest copy if other addons ship them too)
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\HereBeDragons\HereBeDragons-2.0.lua
+
+Core\Init.lua
+Core\Diagnostics.lua
+Core\QuestieAdapter.lua
+Data\Categories.lua
+Data\Index.lua
+Data\Chains.lua
+Data\Storylines.lua
+Data\TravelData.lua
+Engine\Skips.lua
+Engine\Eligibility.lua
+Engine\Crafts.lua
+Engine\Tasks.lua
+Engine\Travel.lua
+Engine\Router.lua
+Engine\Planner.lua
+Engine\Offers.lua
+Lore\Capture.lua
+Voice\SpokenBridge.lua
+UI\Widgets.lua
+UI\Arrow.lua
+UI\StepFrame.lua
+UI\MainFrame.lua
+UI\TabGuide.lua
+UI\TabZones.lua
+UI\TabStorylines.lua
+UI\TabJournal.lua
+UI\TabRevisit.lua
+UI\TabOptions.lua
+UI\QuestLogLink.lua
+Core\Boot.lua
