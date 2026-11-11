@@ -77,6 +77,7 @@ function R:Pin(task)
   LW.Planner:Request()
 end
 
+local DISCOVER_BONUS = 900    -- yards: what a new flight point saves you later (a short detour pays off)
 local KILL_SECONDS = 20      -- one kill, loot included
 local ASSUMED_DROP = 50      -- percent, when the drop chance is unknown
 local AUCTION_SECONDS = 60   -- browsing and buying
@@ -113,6 +114,7 @@ function R:Bonus(t)
   -- Objective work ranks slightly behind: gather the hub's quests before heading out.
   local b = (t.kind == "accept" or t.kind == "turnin") and -60 or -30
   b = b + self:Effort(t)
+  if t.kind == "flightpoint" then return b - DISCOVER_BONUS end
   if LW.Storylines:For(e) then
     b = b - 80 * loreWeight
   elseif LW.Chains:IsStory(LW.Chains:Get(e.chain)) then

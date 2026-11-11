@@ -200,12 +200,19 @@ function TR:ScanTaxiMap()
     return
   end
   local s = store()
+  local firstScan = not s.scanned[pinst]
   for _, fm in ipairs(fms) do
-    if fm.inst == pinst then s.known[fm.npc] = found[fm.npc] or nil end
+    if fm.inst == pinst then
+      if found[fm.npc] and not s.known[fm.npc] and not firstScan then
+        LW:Notify(string.format(L["New flight point: %s. Routes will use it from now on."], fm.zone))
+      end
+      s.known[fm.npc] = found[fm.npc] or nil
+    end
   end
   s.scanned[pinst] = true
   self.version = self.version + 1
   LW:Log("travel", "flight map read: %d known flight points on this continent (%d matched by position)", matched, byPos)
+  LW:RequestRefresh("flight map", 0.2) -- full: discovery steps for points now known disappear
   LW.Router:Route()
 end
 
@@ -359,6 +366,18 @@ LW:OnEvent("TAXIMAP_OPENED", function()
   if not ok then LW:Log("travel", "scan failed: %s", tostring(err)) end
 end)
 LW:Listen("UPDATED", function() if TR.ready then recountZones() end end)
+
+--- Flight masters of your faction you have not discovered yet (only on continents whose
+--- flight map has been read: elsewhere "unknown" is a guess and would send you on errands).
+function TR:Undiscovered()
+  local out = {}
+  if not self.ready then return out end
+  local s = store()
+  for _, fm in ipairs(fms) do
+    if s.scanned[fm.inst] and not s.known[fm.npc] then out[#out + 1] = fm end
+  end
+  return out
+end
 
 --- `/lore travel`: what Loreseeker believes about your flight points, and the current plan.
 function TR:Report()

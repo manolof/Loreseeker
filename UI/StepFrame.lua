@@ -7,7 +7,7 @@ LW.StepFrame = SF
 
 local KIND_VERB = {
   accept = L["Accept"], turnin = L["Turn in"], kill = L["Kill"], loot = L["Collect"], object = L["Use"],
-  buy = L["Buy"], auction = L["Buy"], craft = L["Craft"], explore = L["Explore"], generic = L["Work on"],
+  buy = L["Buy"], auction = L["Buy"], craft = L["Craft"], flightpoint = L["Discover"], explore = L["Explore"], generic = L["Work on"],
 }
 
 function SF:Create()

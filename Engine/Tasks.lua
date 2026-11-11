@@ -213,7 +213,7 @@ local function allFinished(log)
 end
 
 local QUEST_ITEM_CLASS = 12
-local remainingCount, bestDropRate, auctionPoints
+local remainingCount, bestDropRate, auctionPoints, flightPointTask
 
 -- "Sida's Bag: 0/1" -> 1 still needed
 remainingCount = function(line)
@@ -371,6 +371,24 @@ end
 
 LW:Listen("SKIPS_CHANGED", function() T:Invalidate() end)
 
+local DISCOVER_NEAR_WORK = 1200 -- yards from a quest location
+local DISCOVER_MAX = 2         -- at most this many discovery steps at a time
+
+-- A pseudo-quest so the rest of the addon can treat a flight point like any other step.
+local fpCache = {}
+flightPointTask = function(fm)
+  local t = fpCache[fm.npc]
+  if not t then
+    local text = string.format(L["Discover the flight point at %s"], fm.zone)
+    local points = newPoints()
+    points[1] = { map = fm.map, x = fm.x, y = fm.y, area = fm.area }
+    t = { key = "flightpoint:" .. fm.npc, kind = "flightpoint", text = text, target = fm.name, points = points,
+      quest = { id = -fm.npc, name = text, level = 0, req = 0, cat = "travel", flightPoint = true } }
+    fpCache[fm.npc] = t
+  end
+  return t
+end
+
 function T:Build()
   local list, groups, blocked = {}, {}, {}
   local status = LW.Eligibility.status
@@ -399,5 +417,31 @@ function T:Build()
       LW.Yield()
     end
   end
+  -- Undiscovered flight points near where you have quests: an optional step, worth a
+  -- short detour because every later trip can use it.
+  local candidates = {}
+  for _, fm in ipairs(LW.Travel:Undiscovered()) do
+    local nearWork = false
+    for _, t in ipairs(list) do
+      for _, p in ipairs(t.points) do
+        local wx, wy, inst = LW.Router.WorldOf(p)
+        if wx and inst == fm.inst then
+          local dx, dy = wx - fm.wx, wy - fm.wy
+          if dx * dx + dy * dy < DISCOVER_NEAR_WORK * DISCOVER_NEAR_WORK then nearWork = true break end
+        end
+      end
+      if nearWork then break end
+    end
+    if nearWork and not LW.Skips:ForPoint(fm.map, fm.x, fm.y) then candidates[#candidates + 1] = fm end
+  end
+  -- only the closest few, so the guide never fills up with errands
+  local px, py, pinst = LW.Router.PlayerWorld()
+  local function d2(fm)
+    if not px or fm.inst ~= pinst then return math.huge end
+    local dx, dy = fm.wx - px, fm.wy - py
+    return dx * dx + dy * dy
+  end
+  table.sort(candidates, function(a, b) return d2(a) < d2(b) end)
+  for i = 1, math.min(DISCOVER_MAX, #candidates) do list[#list + 1] = flightPointTask(candidates[i]) end
   self.list, self.groups, self.blocked = list, groups, blocked
 end

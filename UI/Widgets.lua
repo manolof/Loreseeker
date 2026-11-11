@@ -14,6 +14,7 @@ UI.ICONS = {
   buy = "Interface\\Icons\\INV_Misc_Coin_01",
   auction = "Interface\\Icons\\INV_Misc_Coin_02",
   craft = "Interface\\Icons\\Trade_BlackSmithing",
+  flightpoint = "Interface\\Icons\\INV_Misc_Feather_01",
   explore = "Interface\\Icons\\INV_Misc_Map_01",
   generic = "Interface\\Icons\\INV_Misc_Note_01",
   story = "Interface\\Icons\\INV_Misc_Book_09",

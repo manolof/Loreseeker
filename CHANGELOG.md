@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Undiscovered flight points near your quests become optional steps (at most two at a time); new ones are announced and used for routing right away
+
 ## 0.3.0
 - Translated into German, French, Spanish, Russian and Simplified Chinese (more languages welcome, see Locales/README.md)
 - Works on every client language: storylines are matched by quest ID, the flight map is read by position, and zone and storyline names come from the game where possible
