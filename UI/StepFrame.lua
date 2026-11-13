@@ -113,9 +113,47 @@ function SF:Create()
   if not LW.db.showStep then f:Hide() end
 end
 
+local function corpsePoint()
+  local map = C_Map.GetBestMapForUnit("player")
+  local getCorpse = C_DeathInfo and C_DeathInfo.GetCorpseMapPosition
+  local pos = map and getCorpse and getCorpse(map)
+  if not pos then return nil end
+  local x, y
+  if pos.GetXY then x, y = pos:GetXY() else x, y = pos.x, pos.y end
+  if not x or (x == 0 and y == 0) then return nil end
+  return { map = map, x = x, y = y }
+end
+
+function SF:ShowPaused(reason)
+  local f = self.frame
+  if reason == "taxi" then
+    f.icon:SetTexture(LW.UI.ICONS.flightpoint)
+    f.title:SetText(L["In flight"])
+    f.action:SetText(L["Loreseeker picks up again when you land."])
+    f.where:SetText("")
+    LW.Arrow:SetTarget(nil)
+  else
+    f.icon:SetTexture("Interface\\Icons\\Ability_Rogue_FeignDeath")
+    f.title:SetText(L["You are dead"])
+    f.action:SetText(L["Return to your corpse (or accept a resurrection). Loreseeker continues from there."])
+    local p = corpsePoint()
+    f.where:SetText(p and string.format("%s %.1f, %.1f", LW.MapName(p.map), p.x * 100, p.y * 100) or "")
+    if p and (not self.corpse or self.corpse.x ~= p.x or self.corpse.y ~= p.y) then
+      self.corpse = p
+      LW.Arrow:SetTarget(p, L["Your corpse"])
+    elseif not p then
+      LW.Arrow:SetTarget(nil)
+    end
+  end
+  f.story:SetText("")
+  f.listen:Disable()
+end
+
 function SF:Show(task)
   local f = self.frame
   if not f then return end
+  if LW.Router.paused then return self:ShowPaused(LW.Router.paused) end
+  self.corpse = nil
   self.task = task
   if not task then
     f.icon:SetTexture(LW.UI.ICONS.done)
@@ -169,7 +207,9 @@ function SF:Show(task)
   end
 
   self:UpdateListen()
-  if leg then
+  if leg and not leg.at then
+    LW.Arrow:SetTarget(nil) -- e.g. "use your hearthstone": nothing to walk to
+  elseif leg then
     LW.Arrow:SetTarget(leg.at, leg.hint and (leg.hint .. ": " .. leg.text) or leg.text)
   else
     LW.Arrow:SetTarget(p, (KIND_VERB[task.kind] or "") .. ": " .. e.name)

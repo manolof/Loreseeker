@@ -65,7 +65,8 @@ end
 function C:Classify(f)
   local sort = f.sort or 0
   if PVP_SORT[sort] or PVP_ZONES[sort] then return "pvp" end
-  if EVENT_SORT[sort] or LW.HasBit(f.specialFlags, 2) then return "event" end
+  -- (specialFlags bit 2 means "completed by a scripted event", e.g. an escort: NOT a holiday)
+  if EVENT_SORT[sort] then return "event" end
   if LW.HasBit(f.specialFlags, 1) or LW.HasBit(f.questFlags, QUEST_FLAGS_DAILY) then return "repeatable" end
   if (f.id and LW.DonationQuests and LW.DonationQuests[f.id]) or (f.name and f.name:find("Donation", 1, true)) then
     return "donation"

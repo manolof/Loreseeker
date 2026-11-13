@@ -189,7 +189,7 @@ end
 -- and the skills you know (a new profession changes which quests apply).
 ---------------------------------------------------------------------------------------------
 
-local CACHE_FORMAT = 2
+local CACHE_FORMAT = 3
 local FIELDS = { "id", "name", "noCombat", "finishers", "startNpcs", "finishNpcs", "level", "req", "maxReq",
   "cat", "zone", "exclusive", "pre", "preGroup", "nextInChain", "breadcrumbFor" }
 

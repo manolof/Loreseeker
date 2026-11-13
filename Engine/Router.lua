@@ -164,7 +164,20 @@ function R:RouteIfMoved()
 end
 
 --- Score and sort the current task list.
+--- Nothing to route while you fly or while you are dead: where you are right now is not
+--- where you will continue from. The step panel shows what to do instead.
+function R:PauseReason()
+  if UnitOnTaxi and UnitOnTaxi("player") then return "taxi" end
+  if UnitIsDeadOrGhost and UnitIsDeadOrGhost("player") then return "dead" end
+  return nil
+end
+
 function R:Route()
+  self.paused = self:PauseReason()
+  if self.paused then
+    LW:Fire("ROUTED", self.current)
+    return
+  end
   local tasks = LW.Tasks.list
   local px, py, pinst = playerWorld()
   local curMap = LW.PlayerZoneMap()

@@ -142,6 +142,20 @@ LW:OnEvent("PLAYER_LEVEL_UP", function(_, level)
   LW:RequestRefresh("level up", 1.0)
   LW.Skips:CheckRevisits(tonumber(level) or UnitLevel("player"))
 end)
+-- Landed, released, revived: route again from where you actually are now.
+for _, ev in ipairs({ "PLAYER_CONTROL_GAINED", "PLAYER_UNGHOST", "PLAYER_ALIVE" }) do
+  LW:OnEvent(ev, function()
+    if not LW.Index.ready then return end
+    C_Timer.After(0.5, function()
+      LW.Router:Route()
+      if not LW.Router.paused then LW.Planner:Request() end
+    end)
+  end)
+end
+for _, ev in ipairs({ "PLAYER_DEAD", "PLAYER_CONTROL_LOST" }) do
+  LW:OnEvent(ev, function() if LW.Index.ready then C_Timer.After(0.3, function() LW.Router:Route() end) end end)
+end
+
 LW:OnEvent("ZONE_CHANGED_NEW_AREA", function()
   if LW.Index.ready then LW.Router:Route(true) end
 end)

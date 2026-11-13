@@ -62,6 +62,7 @@ function TR:Init()
       end
     end
   end
+  self:SetHearthNode()
   self.ready = #fms > 0
   LW:Log("travel", "%d flight masters, %d transport endpoints for faction %s", #fms, #nodes, faction)
 end
@@ -252,6 +253,50 @@ local source = { wx = 0, wy = 0, inst = -1 }
 local cost, how = {}, {} -- per node index: seconds from the player; how = { prev, flyFrom, flyTo, ride }
 
 --- Call once per routing pass with the player's world position.
+---------------------------------------------------------------------------------------------
+-- Hearthstone: a node you can reach from anywhere in HEARTH_SECONDS when it is off cooldown.
+-- Its place is learned when you set it at an innkeeper (the game doesn't tell addons where
+-- "home" is, only its name).
+---------------------------------------------------------------------------------------------
+
+local HEARTHSTONE = 6948
+local HEARTH_SECONDS = 35 -- cast plus loading screen
+local hearthNode
+
+function TR:SetHearthNode()
+  if hearthNode then
+    for i, n in ipairs(nodes) do if n == hearthNode then table.remove(nodes, i) break end end
+    hearthNode = nil
+  end
+  local h = LW.char and LW.char.hearth
+  if not (h and h.map and HBD) then return end
+  local wx, wy, inst = HBD:GetWorldCoordinatesFromZone(h.x, h.y, h.map)
+  if not wx then return end
+  hearthNode = { map = h.map, x = h.x, y = h.y, wx = wx, wy = wy, inst = inst, label = h.name or "", hearth = true }
+  nodes[#nodes + 1] = hearthNode
+  self.version = self.version + 1
+end
+
+local function hearthReady()
+  if not hearthNode then return false end
+  local count = (C_Item and C_Item.GetItemCount and C_Item.GetItemCount(HEARTHSTONE)) or (GetItemCount and GetItemCount(HEARTHSTONE)) or 0
+  if count < 1 then return false end
+  local getCd = (C_Container and C_Container.GetItemCooldown) or GetItemCooldown
+  if not getCd then return true end
+  local start, duration = getCd(HEARTHSTONE)
+  return not start or start == 0 or (start + duration - GetTime()) <= 0
+end
+
+LW:OnEvent("HEARTHSTONE_BOUND", function()
+  local map = LW.PlayerZoneMap()
+  local pos = map and C_Map.GetPlayerMapPosition(map, "player")
+  if not pos then return end
+  local x, y = pos:GetXY()
+  LW.char.hearth = { map = map, x = x, y = y, name = LW.NotSecret(GetBindLocation and GetBindLocation()) or LW.MapName(map) }
+  TR:SetHearthNode()
+  LW:Notify(string.format(L["Hearthstone set to %s. Routes will use it when it's ready."], LW.char.hearth.name))
+end)
+
 function TR:Prepare(px, py, pinst)
   self.usable = false
   if not (self.ready and px and LW.db.useTravel) then return end
@@ -263,10 +308,15 @@ function TR:Prepare(px, py, pinst)
   source.wx, source.wy, source.inst, source.fmv = px, py, pinst, nil
   local n = #nodes
   local done = {}
+  local useHearth = hearthReady()
   for i = 1, n do
     local t, ff, ft = localTime(source, nodes[i])
     cost[i] = t or math.huge
     how[i] = { prev = 0, flyFrom = ff, flyTo = ft }
+    if nodes[i] == hearthNode and useHearth and HEARTH_SECONDS < cost[i] then
+      cost[i] = HEARTH_SECONDS
+      how[i] = { prev = 0, hearth = true }
+    end
     done[i] = false
   end
   for _ = 1, n do -- Dijkstra over a dozen nodes
@@ -279,7 +329,9 @@ function TR:Prepare(px, py, pinst)
       if not done[v] then
         local nv = nodes[v]
         local t, ff, ft, ride
-        if nu.partner == nv then
+        if nv == hearthNode then
+          t = nil -- the hearthstone only works from where you stand, not from mid-route
+        elseif nu.partner == nv then
           t, ride = nu.transport.seconds, true
         else
           t, ff, ft = localTime(nu, nv)
@@ -337,7 +389,9 @@ function TR:Path(p)
   end
   for _, idx in ipairs(chain) do
     local h, node = how[idx], nodes[idx]
-    if h.ride then
+    if h.hearth then
+      legs[#legs + 1] = { kind = "hearth", text = string.format(L["Use your Hearthstone (to %s)"], node.label) }
+    elseif h.ride then
       local from = node.partner
       legs[#legs + 1] = { kind = node.transport.kind, at = from,
         text = string.format(KIND_VERB[node.transport.kind] or L["Travel from %s to %s"], from.label, node.label) }
@@ -393,6 +447,9 @@ function TR:Report()
   LW:Print(string.format(L["%d of %d flight points count as known (%s): %s"], #known, total,
     exact == total and L["read from your flight maps"] or L["partly guessed until you open a flight map on each continent"],
     table.concat(known, ", ")))
+  local h = LW.char.hearth
+  LW:Print(h and string.format(L["Hearthstone: %s (%s)"], h.name or "?", hearthReady() and L["ready"] or L["on cooldown"])
+    or L["Hearthstone: not learned yet (it is learned the next time you set it at an innkeeper)"])
   local cur = LW.Router.current
   if cur and cur.point then
     local t = self:Cost(cur.point)

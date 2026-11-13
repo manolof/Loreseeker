@@ -330,9 +330,17 @@ local function objectiveTasks(e, log, out)
     made = made + 1
   end
   if made == 0 then
+    -- Nothing in the database says where the objectives are: point at whoever the quest is
+    -- handed in to (escorts and "talk to" quests usually happen around them), so the step
+    -- still has a place and gets routed instead of sinking to the bottom.
     local line = log and log.objectives[1] and log.objectives[1].text
-    out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], nil, { detail = line })
+    local finishedBy = LibQuestieDB.Quest.Get(e.id, "finishedBy") or {}
+    out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], function(p)
+      for _, id in ipairs(finishedBy[1] or {}) do npcPoints(p, id) end
+      for _, id in ipairs(finishedBy[2] or {}) do objPoints(p, id) end
+    end, { detail = line, target = (whoNames(finishedBy[1], finishedBy[2])) })
   end
+
 end
 
 ---------------------------------------------------------------------------------------------
@@ -364,9 +372,13 @@ function T:PreviewTurnin(e)
 end
 
 local function isGroupWork(e, task)
-  if not (e.cat == "dungeon" or e.cat == "raid") then return false end
-  if LW.char.pinned[e.zone] then return false end
-  return task.kind ~= "turnin" and (task.kind == "accept" or task.points.inDungeon)
+  if task.kind == "flightpoint" then return false end
+  local tagged = not (e.cat == "dungeon" or e.cat == "raid") and LW.Adapter:IsDungeonTagged(e.id)
+  if not (e.cat == "dungeon" or e.cat == "raid" or tagged) then return false end
+  if e.zone and LW.char.pinned[e.zone] then return false end
+  if task.kind == "turnin" then return false end
+  -- a quest the game calls a dungeon quest: all its work waits for a group, wherever it is
+  return tagged or task.kind == "accept" or task.points.inDungeon
 end
 
 LW:Listen("SKIPS_CHANGED", function() T:Invalidate() end)
@@ -406,8 +418,9 @@ function T:Build()
         if #t.points == 0 and t.points.skippedBy then
           blocked[#blocked + 1] = t
         elseif isGroupWork(e, t) then
-          local g = groups[e.zone]
-          if not g then g = { area = e.zone, tasks = {}, quests = {} }; groups[e.zone] = g end
+          local gz = e.zone or 0 -- a dungeon quest the game tags, from a zone we don't know
+          local g = groups[gz]
+          if not g then g = { area = gz, tasks = {}, quests = {} }; groups[gz] = g end
           g.tasks[#g.tasks + 1] = t
           g.quests[e.id] = true
         else

@@ -204,7 +204,7 @@ end
 local pending = false
 
 function P:Request()
-  if pending or not LW.Index.ready then return end
+  if pending or not LW.Index.ready or LW.Router:PauseReason() then return end
   pending = true
   C_Timer.After(0.1, function()
     if LW:IsBusy("plan") or LW:IsBusy("refresh") then

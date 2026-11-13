@@ -1,6 +1,12 @@
 # Changelog
 
 ## Unreleased
+- Fixed: 182 quests were hidden (a database flag for "completed by a scripted event", like escorts, was mistaken for "seasonal event"), including The Defias Brotherhood, Missing In Action and The Algaz Gauntlet
+- Fixed: quests ready to hand in were sometimes not recognised as complete (now: all objectives done, or no objectives), so their turn-ins were never routed
+- Quests whose objectives have no known location point at their turn-in NPC instead of having no location
+- Dungeon quests the game tags as such stay off the main route even after you pick them up (listed under Group up)
+- Routing pauses while you're on a flight path and while you're dead; when dead, the arrow points to your corpse
+- Hearthstone: learned when you set it at an innkeeper, and used for routing when it's off cooldown
 - Undiscovered flight points near your quests become optional steps (at most two at a time); new ones are announced and used for routing right away
 
 ## 0.3.0

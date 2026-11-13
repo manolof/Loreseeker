@@ -70,7 +70,11 @@ function E:ReadLog()
     local title, isHeader, isComplete, questId = logTitle(i)
     if not isHeader and questId and questId > 0 then
       local objectives = readObjectives(questId, i)
-      local complete = isComplete == 1 or isComplete == true
+      -- The game's own "complete" flag isn't reliable on every client: also count a quest as
+      -- ready when all its objectives are done, or when it has none (deliveries, "talk to").
+      local allDone = true
+      for j = 1, #objectives do if not objectives[j].finished then allDone = false break end end
+      local complete = (isComplete == 1 or isComplete == true or allDone) and isComplete ~= -1
       self.log[questId] = {
         index = i,
         title = title,

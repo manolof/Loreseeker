@@ -63,6 +63,22 @@ function A:DropRate(itemId, npcId)
   return nil
 end
 
+-- Quest tag (dungeon, raid, elite ...). For quests in your log the game knows; otherwise Questie
+-- asks the server and caches the answer, so it can be nil at first.
+local DUNGEON_TAGS = { [81] = true, [62] = true, [85] = true, [88] = true, [89] = true }
+function A:IsDungeonTagged(questId)
+  local tag
+  if C_QuestLog and C_QuestLog.GetQuestTagInfo then
+    local ok, info = pcall(C_QuestLog.GetQuestTagInfo, questId)
+    if ok and type(info) == "table" then tag = info.tagID end
+  end
+  if not tag and QDB and QDB.GetQuestTagInfo then
+    local ok, id = pcall(QDB.GetQuestTagInfo, questId)
+    if ok then tag = id end
+  end
+  return tag and DUNGEON_TAGS[tag] or false
+end
+
 function A:IsHidden(questId)
   local hidden = Corrections and Corrections.hiddenQuests
   return hidden and hidden[questId] and true or false

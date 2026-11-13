@@ -38,7 +38,8 @@ local charDefaults = {
   skips = {},    -- see Engine\Skips.lua
   journal = {},  -- [questId] = { title, zone, detail, objective, progress, complete, t }
   pinned = {},   -- [dungeon areaId] = true : group-up quests promoted to the main route
-  flights = { known = {}, scanned = {} }, -- flight points you know; continents whose flight map was read
+  flights = { known = {}, scanned = {} },
+  hearth = nil,  -- { map, x, y, name } : where your hearthstone takes you (learned when you set it) -- flight points you know; continents whose flight map was read
   crafts = {},   -- [itemId] = profession : recipes you know (read from your profession window)
   starred = {},  -- [chain root questId] = true : storylines the player marked notable
   notOffered = {}, -- [questId] = { npc, level, t } : the NPC didn't offer it (see Engine\Offers.lua)
