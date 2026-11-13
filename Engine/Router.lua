@@ -228,12 +228,16 @@ function R:Route()
     else
       -- travel time, expressed in walking yards so the other weights keep their meaning
       s = (t.travel and t.travel * WALK_YARDS_PER_SECOND) or t.dist or FAR
-      if t.dist and t.dist <= HERE_YARDS and (t.kind == "accept" or t.kind == "turnin") then s = s - HERE_BONUS end
+      t.wTravel, t.wHere, t.wZone, t.wCluster = s, 0, 0, 0
+      if t.dist and t.dist <= HERE_YARDS and (t.kind == "accept" or t.kind == "turnin") then
+        s = s - HERE_BONUS
+        t.wHere = -HERE_BONUS
+      end
       if t.map ~= curMap then
-        s = s + ZONE_PENALTY
-        if inZone > 0 then
-          s = s + (((perMap[t.map] or 0) >= 3) and ERRAND_BATCHED or ERRAND_PENALTY)
-        end
+        local z = ZONE_PENALTY
+        if inZone > 0 then z = z + (((perMap[t.map] or 0) >= 3) and ERRAND_BATCHED or ERRAND_PENALTY) end
+        s = s + z
+        t.wZone = z
       end
       -- cluster: other tasks close to this one make it a hub worth visiting
       if point.wx then
@@ -246,12 +250,15 @@ function R:Route()
         end
         if near > 6 then near = 6 end
         s = s - near * CLUSTER_BONUS
+        t.wCluster = -near * CLUSTER_BONUS
       end
     end
-    s = s + self:Bonus(t)
+    t.wBonus = self:Bonus(t)
+    s = s + t.wBonus
     if t.kind == "accept" and fullLog then s = s + LOG_FULL_PENALTY end
     byKey[t.key] = t
-    if t.key == stickyKey then s = s - STICKY_BONUS end
+    t.wSticky = 0
+    if t.key == stickyKey then s = s - STICKY_BONUS; t.wSticky = -STICKY_BONUS end
     local until_ = self.snoozed[t.key]
     if until_ then
       if until_ > now then
@@ -308,6 +315,42 @@ function R:Route()
   if self.current and self.current.point then self.current.legs = travel:Path(self.current.point) end
   self.logFull = fullLog
   LW:Fire("ROUTED", self.current)
+end
+
+--- `/lore why`: why this step? The best few candidates with their score parts, and whether
+--- the lookahead plan (not the single best score) chose the current step.
+function R:Explain()
+  local say = function(...) LW:Print("|cffffffff[why]|r", ...) end
+  if self.paused then return say("Routing is paused:", self.paused) end
+  local cur = self.current
+  if not cur then return say("No current step.") end
+  local function parts(t)
+    return string.format("score %.0f = travel %.0f (%s yd, %s), zone %+.0f, here %+.0f, cluster %+.0f, bonus/effort %+.0f, sticky %+.0f",
+      t.score or 0, t.wTravel or 0, tostring(t.dist and math.floor(t.dist)), LW.Travel.FormatTime(t.travel),
+      t.wZone or 0, t.wHere or 0, t.wCluster or 0, t.wBonus or 0, t.wSticky or 0)
+  end
+  say(string.format("current: %s - %s [%s]", cur.text, cur.quest.name, cur.key))
+  say("  " .. parts(cur))
+  local best = self.ranked[1]
+  if self.planned and best and best ~= cur then
+    say(string.format("The lookahead PLAN chose this step. The single best score is: %s - %s [%s]", best.text, best.quest.name, best.key))
+    say("  " .. parts(best))
+  elseif self.planned then
+    say("The plan and the best score agree.")
+  else
+    say("Planner off or not ready: this is simply the best score.")
+  end
+  say("next best:")
+  for i = 1, math.min(6, #self.ranked) do
+    local t = self.ranked[i]
+    if t ~= cur then say(string.format("  %d. %s - %s [%s] score %.0f, %s yd", i, t.text, t.quest.name, t.key, t.score or 0, tostring(t.dist and math.floor(t.dist)))) end
+  end
+  local stops = LW.Planner:Stops()
+  if #stops > 0 then
+    local first = {}
+    for _, st in ipairs(stops[1].steps) do first[#first + 1] = st.task.text .. " [" .. st.task.quest.name .. "]" end
+    say("plan, first stop (" .. LW.MapName(stops[1].map) .. "): " .. table.concat(first, "; "))
+  end
 end
 
 function R:Current() return self.current end

@@ -215,6 +215,7 @@ local HELP = {
   L["/lore quest <id> - why a quest has its status"],
   string.format(L["/lore bug <what happened> - save a bug report with your situation (then report at %s)"], LW.ISSUES),
   L["/lore plan - print the planned trip, stop by stop"],
+  "/lore why - explain why the current step was chosen (scores, plan)",
   L["/lore probe - what the game tells addons about your target (testing quest-giver detection)"],
   L["/lore travel - flight points Loreseeker thinks you know, and the plan for the current step"],
   L["/lore voice [questId] - test voice-over step by step (default: current step)"],
@@ -246,6 +247,7 @@ SlashCmdList.LORESEEKER = function(input)
       for _, step in ipairs(stop.steps) do parts[#parts + 1] = step.task.text .. " [" .. step.task.quest.name .. "]" end
       LW:Print(i .. ". " .. LW.MapName(stop.map) .. " (" .. LW.Travel.FormatTime(stop.travel) .. "): " .. table.concat(parts, "; "))
     end
+  elseif cmd == "why" then LW.Router:Explain()
   elseif cmd == "probe" then LW.Offers:Probe()
   elseif cmd == "travel" then LW.Travel:Report()
   elseif cmd == "voice" then LW.Voice:Diagnose(tonumber(rest))

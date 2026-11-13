@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- New /lore why: explains why the current step was chosen (travel, zone, cluster, bonus parts of its score, the next best candidates, and whether the lookahead plan or the best score picked it)
 - Fixed: the difficulty setting was one level too strict (a quest exactly at your setting was deferred). It now reads "do quests up to +N above you" (0 to 9); your saved value is carried over
 - Fixed: quests whose objectives the database can't place (e.g. From the Ashes) no longer get a fake location at the quest giver; Loreseeker tries the game's quest map marker and the objective's name, else says the location is unknown
 - Quest givers within 40 yards (same building) are picked up before walking off
