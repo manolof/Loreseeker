@@ -189,7 +189,7 @@ local function compute(e, playerLevel, db)
   end
   -- Deliveries have nothing to fight, so they get 3 extra levels of slack; far above that
   -- they lead to content you can't do yet, and wait in Later like anything else.
-  if diff >= db.deferAt + (e.noCombat and DELIVERY_SLACK or 0) then return "later" end
+  if diff > db.maxAbove + (e.noCombat and DELIVERY_SLACK or 0) then return "later" end
   return "now"
 end
 

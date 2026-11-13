@@ -5,7 +5,7 @@ local UI = LW.UI
 
 local tab = { key = "options", label = L["Options"], widgets = {} }
 
-local DEFER = { [1] = L["+1 (yellow)"], [2] = L["+2 (yellow)"], [3] = L["orange (+3)"], [4] = L["orange (+4)"], [5] = L["red (+5)"], [6] = "+6", [7] = "+7", [8] = "+8", [9] = "+9", [10] = "+10" }
+local DEFER = { [0] = "+0", [1] = L["+1 (yellow)"], [2] = L["+2 (yellow)"], [3] = L["orange (+3)"], [4] = L["orange (+4)"], [5] = L["red (+5)"], [6] = "+6", [7] = "+7", [8] = "+8", [9] = "+9" }
 local LORE = { [0] = "off", [1] = "light", [2] = "normal", [3] = L["lore first"] }
 
 local function changed() LW:RequestRefresh("options") end
@@ -40,8 +40,8 @@ function tab:Build(panel)
 
   y = y - 8
   header(L["Level band"])
-  place(UI.Stepper(c, L["Move quests to Later when they are this far above your level"], 1, 10,
-    function() return LW.db.deferAt end, function(v) LW.db.deferAt = v; changed() end,
+  place(UI.Stepper(c, L["Do quests up to this many levels above you (higher ones wait in Later)"], 0, 9,
+    function() return LW.db.maxAbove end, function(v) LW.db.maxAbove = v; changed() end,
     function(v) return DEFER[v] or ("+" .. v) end))
   place(UI.Stepper(c, L["Dungeon quests up to this many levels above you"], 0, 10,
     function() return LW.db.dungeonRange end, function(v) LW.db.dungeonRange = v; changed() end,

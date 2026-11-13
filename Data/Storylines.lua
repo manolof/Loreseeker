@@ -340,7 +340,7 @@ function S:ChainState(chain, ahead)
       if st ~= "done" then allDone = false end
       if st == "now" or st == "active" or st == "group" then return "available" end
       if st == "later" then
-        local need = math.max(e.req or 0, E:Level(e, level) - LW.db.deferAt + 1)
+        local need = math.max(e.req or 0, E:Level(e, level) - LW.db.maxAbove)
         if not soonest or need < soonest then soonest = need end
       end
     end

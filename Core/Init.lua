@@ -24,7 +24,7 @@ LW.defaults = {
     pvp = false,        -- battleground quests
   },
   dungeonRange = 3,  -- dungeon quests count as "now" within this many levels above you
-  deferAt = 3,       -- quest level minus your level at which a quest goes to Later (3 = orange, 5 = red)
+  maxAbove = 2,      -- quests up to this many levels above you are done now; higher ones wait in Later
   loreWeight = 2,    -- 0 (ignore lore) .. 3 (lore first)
   usePlanner = true, -- follow the lookahead plan (off: always take the single best next step)
   useTravel = true,  -- route by travel time (flight paths, boats, tram) instead of straight lines
@@ -61,6 +61,14 @@ end
 function LW:InitDB()
   LoreseekerDB = LoreseekerDB or {}
   LoreseekerDB.profile = LoreseekerDB.profile or {}
+  -- Migration (0.3.x): "deferAt" used to defer quests AT that many levels above you. The new
+  -- "maxAbove" is the highest level above you that is still done now. Untouched default (3)
+  -- keeps its behaviour (2); a value you chose yourself keeps the number you saw.
+  local p = LoreseekerDB.profile
+  if p.maxAbove == nil and p.deferAt ~= nil then
+    p.maxAbove = (p.deferAt == 3) and 2 or math.max(0, p.deferAt)
+  end
+  p.deferAt = nil
   fillDefaults(LoreseekerDB.profile, self.defaults)
   self.db = LoreseekerDB.profile
 

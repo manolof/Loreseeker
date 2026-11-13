@@ -31,7 +31,7 @@ It isn't a hand-written route. Loreseeker reads the full quest database (via Que
 
 | | |
 |---|---|
-| 📜 **Do (almost) everything** | Every quest your character can do, grey ones included. Too-hard quests wait in a **Later** queue until you level up, and you choose what "too hard" means (+1 to +10 levels). |
+| 📜 **Do (almost) everything** | Every quest your character can do, grey ones included. Too-hard quests wait in a **Later** queue until you level up, and you choose how many levels above you still count (+0 to +9). |
 | 🧭 **Plans your trip** | Up to 16 steps ahead, grouped into **stops**, so everything to pick up, do and hand in at one place happens together. |
 | 🪽 **Real travel** | Walking, the flight paths *you* have discovered, boats, zeppelins and the Deeprun Tram. When flying is faster, the arrow points at the flight master. |
 | 📖 **Lore first** | About 100 hand-picked storylines, grouped by zone and given priority in the route. Star any other chain you like, and click any quest to see its whole storyline. |

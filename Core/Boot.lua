@@ -187,7 +187,7 @@ local function questInfo(id)
     tostring(LW.Adapter:IsDoable(id)), tostring(LW.Adapter:IsCompleted(id))))
   local you = UnitLevel("player")
   local diff = LW.Eligibility:Level(e, you) - you
-  LW:Print(string.format(L["you %d, quest %+d levels (Later from %+d)%s, category %s %s"], you, diff, LW.db.deferAt,
+  LW:Print(string.format(L["you %d, quest %+d levels (you do up to %+d)%s, category %s %s"], you, diff, LW.db.maxAbove,
     e.noCombat and L[", delivery/talk only: 3 extra levels allowed"] or "", e.cat,
     LW.Categories:Enabled(e.cat) and L["(on)"] or L["(OFF in Options)"]))
   if LW.Eligibility:IsDeadBreadcrumb(e) then
