@@ -320,7 +320,14 @@ end
 --- `/lore why`: why this step? The best few candidates with their score parts, and whether
 --- the lookahead plan (not the single best score) chose the current step.
 function R:Explain()
-  local say = function(...) LW:Print("|cffffffff[why]|r", ...) end
+  -- Also saved in the diagnostics log, so a /reload afterwards captures it.
+  local say = function(...)
+    local parts = { ... }
+    for i = 1, select("#", ...) do parts[i] = tostring(parts[i]) end
+    local text = table.concat(parts, " ")
+    LW:Print("|cffffffff[why]|r", text)
+    LW:Log("why", "%s", text)
+  end
   if self.paused then return say("Routing is paused:", self.paused) end
   local cur = self.current
   if not cur then return say("No current step.") end
