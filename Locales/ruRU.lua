@@ -59,6 +59,9 @@ LW:AddTranslations("ruRU", {
   ["Battleground quests"] = "Задания полей боя",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "Доступен новый сюжет: %s",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "отменено",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "Вы отменили [%s]: теперь оно пропускается. Верните его на вкладке «Вернуться позже», если передумаете.",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] снова в вашем маршруте.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] снова предлагается и возвращено в ваш маршрут.",
@@ -205,6 +208,7 @@ LW:AddTranslations("ruRU", {
   ["What counts toward \"everything\""] = "Что входит во \"всё\"",
   ["Level band"] = "Диапазон уровней",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "Выполнять задания не выше стольких уровней над вами (более высокие ждут в «Позже»)",
+  ["Skip quests I abandon (they wait in Revisit)"] = "Пропускать задания, которые я отменяю (они ждут во вкладке «Вернуться позже»)",
   ["Dungeon quests up to this many levels above you"] = "Задания подземелий не выше стольких уровней над вами",
   ["Lore"] = "Сюжет",
   ["Story priority"] = "Приоритет сюжета",

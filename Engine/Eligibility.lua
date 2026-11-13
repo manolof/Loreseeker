@@ -62,6 +62,8 @@ end
 ---   anyChanged    - anything at all changed (objective progress, completion)
 --- QUEST_LOG_UPDATE fires constantly; these let a refresh do only the work that is needed.
 local lastIds, lastDetail = "", ""
+local prevLog -- [questId] = failed? from the previous read (nil until the first read)
+E.removed = {} -- quests that left the log since the previous read (abandoned, failed or handed in)
 function E:ReadLog()
   wipe(self.log)
   local n = numEntries() or 0
@@ -90,6 +92,15 @@ function E:ReadLog()
     end
   end
   self.logCount = #ids
+  -- quests gone since the last read; failed ones are left alone (you will retry them)
+  wipe(self.removed)
+  if prevLog then
+    for id, failed in pairs(prevLog) do
+      if not self.log[id] and not failed then self.removed[#self.removed + 1] = id end
+    end
+  end
+  prevLog = {}
+  for id, q in pairs(self.log) do prevLog[id] = q.failed and true or false end
   table.sort(ids)
   local idSig, detailSig = table.concat(ids, ","), table.concat(detail, "|")
   local questsChanged, anyChanged = idSig ~= lastIds, (idSig ~= lastIds or detailSig ~= lastDetail)

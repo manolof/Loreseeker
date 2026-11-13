@@ -37,6 +37,7 @@ local function runRefresh()
     end
   end, function()
     if not did then return end
+    LW.Abandoned:Schedule(LW.Eligibility.removed)
     LW.Router:Route(true)
     local cur = LW.Router.current
     local curKey = cur and cur.key

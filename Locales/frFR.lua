@@ -59,6 +59,9 @@ LW:AddTranslations("frFR", {
   ["Battleground quests"] = "Quêtes de champ de bataille",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "Nouvelle histoire disponible : %s",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "abandonnée",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "Vous avez abandonné [%s] : elle est maintenant ignorée. Annulez cela dans l'onglet « À revoir » si vous changez d'avis.",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] est de retour sur votre itinéraire.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] est de nouveau proposée, elle revient sur votre itinéraire.",
@@ -205,6 +208,7 @@ LW:AddTranslations("frFR", {
   ["What counts toward \"everything\""] = "Ce qui compte dans \"tout\"",
   ["Level band"] = "Tranche de niveau",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "Faire les quêtes jusqu'à autant de niveaux au-dessus de vous (les plus hautes attendent dans « Plus tard »)",
+  ["Skip quests I abandon (they wait in Revisit)"] = "Ignorer les quêtes que j'abandonne (elles attendent dans « À revoir »)",
   ["Dungeon quests up to this many levels above you"] = "Quêtes de donjon jusqu'à autant de niveaux au-dessus de vous",
   ["Lore"] = "Histoire",
   ["Story priority"] = "Priorité à l'histoire",

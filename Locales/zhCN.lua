@@ -59,6 +59,9 @@ LW:AddTranslations("zhCN", {
   ["Battleground quests"] = "战场任务",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "新的故事线可用：%s",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "已放弃",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "你放弃了 [%s]：现在已将其跳过。如果改变主意，可在“稍后回访”标签页中取消跳过。",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] 已回到你的路线中。",
   ["[%s] is offered again, so it is back on your route."] = "[%s] 再次可接，已回到你的路线中。",
@@ -205,6 +208,7 @@ LW:AddTranslations("zhCN", {
   ["What counts toward \"everything\""] = "哪些算作\"全部\"",
   ["Level band"] = "等级范围",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "现在就做高出你不超过这么多级的任务（更高的放入“稍后”）",
+  ["Skip quests I abandon (they wait in Revisit)"] = "跳过我放弃的任务（它们在“稍后回访”中等待）",
   ["Dungeon quests up to this many levels above you"] = "地下城任务最多高出你的等级数",
   ["Lore"] = "故事",
   ["Story priority"] = "故事优先级",

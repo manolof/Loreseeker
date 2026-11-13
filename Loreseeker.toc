@@ -46,6 +46,7 @@ Engine\Travel.lua
 Engine\Router.lua
 Engine\Planner.lua
 Engine\Offers.lua
+Engine\Abandoned.lua
 Lore\Capture.lua
 Voice\SpokenBridge.lua
 UI\Widgets.lua

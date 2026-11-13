@@ -30,6 +30,7 @@ LW.defaults = {
   useTravel = true,  -- route by travel time (flight paths, boats, tram) instead of straight lines
   showArrow = true,
   showStep = true,
+  skipAbandoned = true, -- a quest you drop from your log is skipped instead of being offered again
   notify = true,     -- announce automatic decisions on screen (always also in chat)
   pvpZones = {},     -- [areaId] = true : contested zones skipped by the PvP preset
 }

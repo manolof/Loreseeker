@@ -43,6 +43,8 @@ function tab:Build(panel)
   place(UI.Stepper(c, L["Do quests up to this many levels above you (higher ones wait in Later)"], 0, 9,
     function() return LW.db.maxAbove end, function(v) LW.db.maxAbove = v; changed() end,
     function(v) return DEFER[v] or ("+" .. v) end))
+  place(UI.Check(c, L["Skip quests I abandon (they wait in Revisit)"],
+    function() return LW.db.skipAbandoned end, function(v) LW.db.skipAbandoned = v end))
   place(UI.Stepper(c, L["Dungeon quests up to this many levels above you"], 0, 10,
     function() return LW.db.dungeonRange end, function(v) LW.db.dungeonRange = v; changed() end,
     function(v) return "+" .. v end))

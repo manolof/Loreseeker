@@ -59,6 +59,9 @@ LW:AddTranslations("zhTW", {
   ["Battleground quests"] = "",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "",
   ["[%s] is offered again, so it is back on your route."] = "",
@@ -205,6 +208,7 @@ LW:AddTranslations("zhTW", {
   ["What counts toward \"everything\""] = "",
   ["Level band"] = "",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "",
+  ["Skip quests I abandon (they wait in Revisit)"] = "",
   ["Dungeon quests up to this many levels above you"] = "",
   ["Lore"] = "",
   ["Story priority"] = "",

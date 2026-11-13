@@ -59,6 +59,9 @@ LW:AddTranslations("esES", {
   ["Battleground quests"] = "Misiones de campo de batalla",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "Nueva historia disponible: %s",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "abandonada",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "Has abandonado [%s]: ahora se omite. Deja de omitirla en la pestaña «Volver más tarde» si cambias de opinión.",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] vuelve a estar en tu ruta.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] se ofrece de nuevo y vuelve a tu ruta.",
@@ -205,6 +208,7 @@ LW:AddTranslations("esES", {
   ["What counts toward \"everything\""] = "Qué cuenta como \"todo\"",
   ["Level band"] = "Rango de nivel",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "Hacer misiones hasta tantos niveles por encima de ti (las más altas esperan en «Más tarde»)",
+  ["Skip quests I abandon (they wait in Revisit)"] = "Omitir las misiones que abandono (esperan en «Volver más tarde»)",
   ["Dungeon quests up to this many levels above you"] = "Misiones de mazmorra hasta tantos niveles por encima de ti",
   ["Lore"] = "Historia",
   ["Story priority"] = "Prioridad de la historia",

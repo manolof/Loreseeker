@@ -59,6 +59,9 @@ LW:AddTranslations("deDE", {
   ["Battleground quests"] = "Schlachtfeldquests",
   -- Interface: Data/Storylines.lua
   ["New storyline available: %s"] = "Neuer Handlungsstrang verfügbar: %s",
+  -- Interface: Engine/Abandoned.lua
+  ["abandoned"] = "abgebrochen",
+  ["You abandoned [%s]: it is skipped now. Unskip it in the Revisit tab if you change your mind."] = "Du hast [%s] abgebrochen: Sie wird jetzt übersprungen. Hebe das im Tab „Später besuchen“ auf, wenn du es dir anders überlegst.",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] ist wieder auf deiner Route.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] wird wieder angeboten und ist zurück auf deiner Route.",
@@ -205,6 +208,7 @@ LW:AddTranslations("deDE", {
   ["What counts toward \"everything\""] = "Was zu \"allem\" zählt",
   ["Level band"] = "Stufenbereich",
   ["Do quests up to this many levels above you (higher ones wait in Later)"] = "Quests bis zu so vielen Stufen über dir jetzt machen (höhere warten in „Später“)",
+  ["Skip quests I abandon (they wait in Revisit)"] = "Quests überspringen, die ich abbreche (sie warten unter „Später besuchen“)",
   ["Dungeon quests up to this many levels above you"] = "Dungeonquests bis zu so vielen Stufen über dir",
   ["Lore"] = "Geschichte",
   ["Story priority"] = "Vorrang der Geschichte",
