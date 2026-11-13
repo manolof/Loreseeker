@@ -457,8 +457,10 @@ local function isGroupWork(e, task)
   if not (e.cat == "dungeon" or e.cat == "raid" or tagged) then return false end
   if e.zone and LW.char.pinned[e.zone] then return false end
   if task.kind == "turnin" then return false end
-  -- a quest the game calls a dungeon quest: all its work waits for a group, wherever it is
-  return tagged or task.kind == "accept" or task.points.inDungeon
+  -- A quest whose own zone is a dungeon or instance ("Excavation Site: Wetlands"), or that the
+  -- game tags as a dungeon quest: ALL its work waits for a group, even after you accepted it
+  -- and even when the creature spawns are listed in the outdoor zone around the entrance.
+  return true
 end
 
 LW:Listen("SKIPS_CHANGED", function() T:Invalidate() end)

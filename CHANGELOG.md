@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Fixed: quests whose zone is a dungeon or instance (e.g. "Excavation Site: Wetlands") kept their outdoor-listed objectives on the main route after you accepted them; all their work now waits under Group up
 - /lore why also lists quests whose giver is within 800 yards but that are not on your route, with the reason for each (too high, locked, skipped, not offered, ...)
 - Quests you abandon (they leave your log without a turn-in) are skipped automatically, with a notification, instead of being offered again. Unskip them in the Revisit tab; switch the behaviour off in Options
 - New /lore why: explains why the current step was chosen (travel, zone, cluster, bonus parts of its score, the next best candidates, and whether the lookahead plan or the best score picked it)
