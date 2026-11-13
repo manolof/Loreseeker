@@ -352,6 +352,59 @@ function R:Explain()
     local t = self.ranked[i]
     if t ~= cur then say(string.format("  %d. %s - %s [%s] score %.0f, %s yd", i, t.text, t.quest.name, t.key, t.score or 0, tostring(t.dist and math.floor(t.dist)))) end
   end
+  -- Quests whose giver is close to you but that are NOT on your route, and why.
+  local px, py, pinst = playerWorld()
+  local zone = LW.Adapter:AreaForMap(LW.PlayerZoneMap())
+  if px and HBD then
+    local E, level = LW.Eligibility, UnitLevel("player")
+    local found = {}
+    for _, e in ipairs(LW.Index.list) do
+      local st = E:Status(e.id)
+      if (st == "later" or st == "locked" or st == "skipped" or st == "excluded" or st == "group")
+        and (not zone or e.zone == zone) and type(e.startNpcs) == "table" then
+        local best
+        for _, npc in ipairs(e.startNpcs) do
+          local ok, spawns = pcall(LibQuestieDB.Npc.Get, npc, "spawns")
+          if ok and type(spawns) == "table" then
+            for areaId, coords in pairs(spawns) do
+              local map = LW.Adapter:UiMap(areaId)
+              local c = map and type(coords) == "table" and coords[1]
+              if c then
+                local wx, wy, inst = HBD:GetWorldCoordinatesFromZone(c[1] / 100, c[2] / 100, map)
+                if wx and inst == pinst then
+                  local d = math.sqrt((wx - px) ^ 2 + (wy - py) ^ 2)
+                  if not best or d < best then best = d end
+                end
+              end
+            end
+          end
+        end
+        if best and best < 800 then found[#found + 1] = { e = e, st = st, d = best } end
+      end
+    end
+    table.sort(found, function(a, b) return a.d < b.d end)
+    if #found > 0 then
+      say("quests with a giver within 800 yards that are NOT on your route:")
+      for i = 1, math.min(10, #found) do
+        local f, e = found[i], found[i].e
+        local reason
+        if f.st == "later" then
+          if (e.req or 0) > level then reason = string.format("needs level %d (you are %d)", e.req, level)
+          else reason = string.format("quest level %d vs your %d: more than +%d above you", E:Level(e, level), level, LW.db.maxAbove) end
+        elseif f.st == "locked" then
+          if LW.Offers:Is(e.id) then reason = "the NPC did not offer it"
+          elseif e.impliedPre then reason = "follow-up of a quest you haven't done"
+          elseif e.maxReq and e.maxReq > 0 and level > e.maxReq then reason = "you are too high a level for it"
+          else reason = "not doable yet according to Questie (prerequisite, reputation or skill)" end
+        elseif f.st == "skipped" then
+          local rule = LW.Skips:ForQuest(e)
+          reason = "skipped: " .. (rule and LW.Skips:Describe(rule) or "?")
+        elseif f.st == "excluded" then reason = "an alternative was done, or its breadcrumb is gone"
+        else reason = "dungeon/group quest (Group up list)" end
+        say(string.format("  %s [%d] %d yd: %s", e.name, e.id, f.d, reason))
+      end
+    end
+  end
   local stops = LW.Planner:Stops()
   if #stops > 0 then
     local first = {}
