@@ -191,7 +191,7 @@ function SF:Show(task)
     local dist = task.dist and " - " .. string.format(L["%d yd"], task.dist) or ""
     f.where:SetText(string.format("%s %.1f, %.1f%s", LW.MapName(p.map), p.x * 100, p.y * 100, dist))
   else
-    f.where:SetText(L["No known location"])
+    f.where:SetText(task.unknown and L["Location unknown: check the quest text in your quest log"] or L["No known location"])
   end
 
   local chain = LW.Chains:Get(e.chain)

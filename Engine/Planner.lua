@@ -25,7 +25,7 @@ local REPLAN_YARDS = 120   -- moved this far from where the plan was made: plan 
 local WALK = 7
 local FAR = 100000
 local ZONE_PENALTY, ERRAND_PENALTY, ERRAND_BATCHED = 600, 4000, 800
-local HERE_YARDS, HERE_BONUS = 25, 400
+local HERE_YARDS, HERE_BONUS = 40, 400
 local OBJECTIVE = { kill = true, loot = true, object = true, buy = true, auction = true, craft = true,
   explore = true, generic = true }
 

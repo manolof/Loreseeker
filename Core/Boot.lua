@@ -40,6 +40,7 @@ local function runRefresh()
     LW.Router:Route(true)
     local cur = LW.Router.current
     local curKey = cur and cur.key
+    if did == "full" then pcall(LW.Storylines.Announce, LW.Storylines) end
     if did == "full" or curKey ~= LW.lastLoggedStep then
       local c = LW.Eligibility.counts
       LW:Log("refresh", "%s (%s): %d tasks, now %d, active %d, later %d, group %d, %.0f ms",

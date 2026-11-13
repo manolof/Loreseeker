@@ -57,6 +57,8 @@ LW:AddTranslations("esMX", {
   ["Repeatable & daily quests"] = "Misiones repetibles y diarias",
   ["Seasonal event quests"] = "Misiones de eventos de temporada",
   ["Battleground quests"] = "Misiones de campo de batalla",
+  -- Interface: Data/Storylines.lua
+  ["New storyline available: %s"] = "Nueva historia disponible: %s",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] vuelve a estar en tu ruta.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] se ofrece de nuevo y vuelve a tu ruta.",
@@ -152,6 +154,7 @@ LW:AddTranslations("esMX", {
   ["Open your %s window: you know this recipe"] = "Abre tu ventana de %s: conoces esta receta",
   ["profession"] = "profesión",
   ["%d yd"] = "%d m",
+  ["Location unknown: check the quest text in your quest log"] = "Ubicación desconocida: consulta el texto de la misión en tu registro",
   ["No known location"] = "Sin ubicación conocida",
   ["Story: %s - %d/%d"] = "Historia: %s - %d/%d",
   ["Stop"] = "Detener",
@@ -246,6 +249,8 @@ LW:AddTranslations("esMX", {
   ["Selected storyline"] = "Historia seleccionada",
   ["click to clear"] = "clic para borrar",
   ["Other"] = "Otros",
+  ["Coming up (within 3 levels)"] = "Próximamente (en 3 niveles)",
+  ["opens at level %d"] = "desde el nivel %d",
   ["Notable storylines (%d)"] = "Historias destacadas (%d)",
   ["Other quest chains (%d+ quests)"] = "Otras cadenas de misiones (%d+ misiones)",
   ["%s is a standalone quest, not part of a storyline."] = "%s es una misión suelta, no forma parte de una historia.",

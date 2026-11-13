@@ -76,6 +76,22 @@ function tab:Refresh()
     if not zones[zone] then zones[zone] = {}; order[#order + 1] = zone end
     table.insert(zones[zone], chain)
   end
+  -- Coming up: notable storylines that open within the next few levels
+  local soon = {}
+  for _, chain in ipairs(curated) do
+    local state, level = LW.Storylines:ChainState(chain, 3)
+    if state == "soon" then soon[#soon + 1] = { chain = chain, level = level } end
+  end
+  if #soon > 0 then
+    table.sort(soon, function(a, b) return a.level < b.level end)
+    items[#items + 1] = { header = true, text = L["Coming up (within 3 levels)"] }
+    for _, s in ipairs(soon) do
+      items[#items + 1] = { indent = 1, icon = UI.ICONS.story, text = LW.Chains:Name(s.chain),
+        right = string.format(L["opens at level %d"], s.level),
+        tooltip = UI.Lines(LW.Chains:Name(s.chain), s.chain.curated.blurb and L[s.chain.curated.blurb]),
+        onClick = function() LW.Main:ShowStory(s.chain.root.id) end }
+    end
+  end
   items[#items + 1] = { header = true, text = string.format(L["Notable storylines (%d)"], #curated) }
   for _, zone in ipairs(order) do
     items[#items + 1] = { indent = 1, header = true, text = LW.LocalZone(zone) }

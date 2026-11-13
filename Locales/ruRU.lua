@@ -57,6 +57,8 @@ LW:AddTranslations("ruRU", {
   ["Repeatable & daily quests"] = "Повторяемые и ежедневные задания",
   ["Seasonal event quests"] = "Задания сезонных событий",
   ["Battleground quests"] = "Задания полей боя",
+  -- Interface: Data/Storylines.lua
+  ["New storyline available: %s"] = "Доступен новый сюжет: %s",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] снова в вашем маршруте.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] снова предлагается и возвращено в ваш маршрут.",
@@ -152,6 +154,7 @@ LW:AddTranslations("ruRU", {
   ["Open your %s window: you know this recipe"] = "Откройте окно «%s»: вы знаете этот рецепт",
   ["profession"] = "профессия",
   ["%d yd"] = "%d м",
+  ["Location unknown: check the quest text in your quest log"] = "Место неизвестно: смотрите текст задания в журнале",
   ["No known location"] = "Место неизвестно",
   ["Story: %s - %d/%d"] = "Сюжет: %s - %d/%d",
   ["Stop"] = "Стоп",
@@ -246,6 +249,8 @@ LW:AddTranslations("ruRU", {
   ["Selected storyline"] = "Выбранный сюжет",
   ["click to clear"] = "щёлкните, чтобы сбросить",
   ["Other"] = "Прочее",
+  ["Coming up (within 3 levels)"] = "Скоро (в пределах 3 уровней)",
+  ["opens at level %d"] = "с %d уровня",
   ["Notable storylines (%d)"] = "Примечательные сюжеты (%d)",
   ["Other quest chains (%d+ quests)"] = "Другие цепочки заданий (%d+ заданий)",
   ["%s is a standalone quest, not part of a storyline."] = "%s — одиночное задание, не часть сюжета.",

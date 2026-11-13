@@ -57,6 +57,8 @@ LW:AddTranslations("deDE", {
   ["Repeatable & daily quests"] = "Wiederholbare und tägliche Quests",
   ["Seasonal event quests"] = "Saisonale Eventquests",
   ["Battleground quests"] = "Schlachtfeldquests",
+  -- Interface: Data/Storylines.lua
+  ["New storyline available: %s"] = "Neuer Handlungsstrang verfügbar: %s",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] ist wieder auf deiner Route.",
   ["[%s] is offered again, so it is back on your route."] = "[%s] wird wieder angeboten und ist zurück auf deiner Route.",
@@ -152,6 +154,7 @@ LW:AddTranslations("deDE", {
   ["Open your %s window: you know this recipe"] = "Öffne dein %s-Fenster: du kennst dieses Rezept",
   ["profession"] = "Beruf",
   ["%d yd"] = "%d m",
+  ["Location unknown: check the quest text in your quest log"] = "Ort unbekannt: sieh im Questtext in deinem Questlog nach",
   ["No known location"] = "Kein bekannter Ort",
   ["Story: %s - %d/%d"] = "Geschichte: %s - %d/%d",
   ["Stop"] = "Stopp",
@@ -246,6 +249,8 @@ LW:AddTranslations("deDE", {
   ["Selected storyline"] = "Gewählter Handlungsstrang",
   ["click to clear"] = "zum Leeren klicken",
   ["Other"] = "Sonstiges",
+  ["Coming up (within 3 levels)"] = "Demnächst (innerhalb von 3 Stufen)",
+  ["opens at level %d"] = "ab Stufe %d",
   ["Notable storylines (%d)"] = "Bemerkenswerte Handlungsstränge (%d)",
   ["Other quest chains (%d+ quests)"] = "Weitere Questreihen (%d+ Quests)",
   ["%s is a standalone quest, not part of a storyline."] = "%s ist eine einzelne Quest, kein Teil eines Handlungsstrangs.",

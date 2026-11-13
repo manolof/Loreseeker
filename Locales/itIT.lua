@@ -57,6 +57,8 @@ LW:AddTranslations("itIT", {
   ["Repeatable & daily quests"] = "",
   ["Seasonal event quests"] = "",
   ["Battleground quests"] = "",
+  -- Interface: Data/Storylines.lua
+  ["New storyline available: %s"] = "",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "",
   ["[%s] is offered again, so it is back on your route."] = "",
@@ -152,6 +154,7 @@ LW:AddTranslations("itIT", {
   ["Open your %s window: you know this recipe"] = "",
   ["profession"] = "",
   ["%d yd"] = "",
+  ["Location unknown: check the quest text in your quest log"] = "",
   ["No known location"] = "",
   ["Story: %s - %d/%d"] = "",
   ["Stop"] = "",
@@ -246,6 +249,8 @@ LW:AddTranslations("itIT", {
   ["Selected storyline"] = "",
   ["click to clear"] = "",
   ["Other"] = "",
+  ["Coming up (within 3 levels)"] = "",
+  ["opens at level %d"] = "",
   ["Notable storylines (%d)"] = "",
   ["Other quest chains (%d+ quests)"] = "",
   ["%s is a standalone quest, not part of a storyline."] = "",

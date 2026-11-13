@@ -41,6 +41,7 @@ local charDefaults = {
   flights = { known = {}, scanned = {} },
   hearth = nil,  -- { map, x, y, name } : where your hearthstone takes you (learned when you set it) -- flight points you know; continents whose flight map was read
   crafts = {},   -- [itemId] = profession : recipes you know (read from your profession window)
+  announced = {}, -- [chain root questId] = true : storylines already announced as available
   starred = {},  -- [chain root questId] = true : storylines the player marked notable
   notOffered = {}, -- [questId] = { npc, level, t } : the NPC didn't offer it (see Engine\Offers.lua)
   frames = {},   -- saved positions

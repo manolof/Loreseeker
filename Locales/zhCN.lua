@@ -57,6 +57,8 @@ LW:AddTranslations("zhCN", {
   ["Repeatable & daily quests"] = "可重复和日常任务",
   ["Seasonal event quests"] = "节日活动任务",
   ["Battleground quests"] = "战场任务",
+  -- Interface: Data/Storylines.lua
+  ["New storyline available: %s"] = "新的故事线可用：%s",
   -- Interface: Engine/Offers.lua
   ["[%s] is back on your route."] = "[%s] 已回到你的路线中。",
   ["[%s] is offered again, so it is back on your route."] = "[%s] 再次可接，已回到你的路线中。",
@@ -152,6 +154,7 @@ LW:AddTranslations("zhCN", {
   ["Open your %s window: you know this recipe"] = "打开你的%s窗口：你会这个配方",
   ["profession"] = "专业",
   ["%d yd"] = "%d 码",
+  ["Location unknown: check the quest text in your quest log"] = "位置未知：请查看任务日志中的任务文本",
   ["No known location"] = "位置未知",
   ["Story: %s - %d/%d"] = "故事线：%s - %d/%d",
   ["Stop"] = "停止",
@@ -246,6 +249,8 @@ LW:AddTranslations("zhCN", {
   ["Selected storyline"] = "选中的故事线",
   ["click to clear"] = "点击清除",
   ["Other"] = "其他",
+  ["Coming up (within 3 levels)"] = "即将开放（3 级以内）",
+  ["opens at level %d"] = "%d 级开放",
   ["Notable storylines (%d)"] = "精选故事线（%d）",
   ["Other quest chains (%d+ quests)"] = "其他任务链（%d 个以上任务）",
   ["%s is a standalone quest, not part of a storyline."] = "%s 是独立任务，不属于任何故事线。",

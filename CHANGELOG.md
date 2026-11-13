@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- Fixed: quests whose objectives the database can't place (e.g. From the Ashes) no longer get a fake location at the quest giver; Loreseeker tries the game's quest map marker and the objective's name, else says the location is unknown
+- Quest givers within 40 yards (same building) are picked up before walking off
+- New storyline announcements: you're told once when a notable storyline becomes available, and the Storylines tab lists those opening within 3 levels
 - Fixed: 182 quests were hidden (a database flag for "completed by a scripted event", like escorts, was mistaken for "seasonal event"), including The Defias Brotherhood, Missing In Action and The Algaz Gauntlet
 - Fixed: quests ready to hand in were sometimes not recognised as complete (now: all objectives done, or no objectives), so their turn-ins were never routed
 - Quests whose objectives have no known location point at their turn-in NPC instead of having no location

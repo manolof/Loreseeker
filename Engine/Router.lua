@@ -124,7 +124,7 @@ function R:Bonus(t)
 end
 
 local WALK_YARDS_PER_SECOND = 7
-local HERE_YARDS = 25         -- "you are standing next to it"
+local HERE_YARDS = 40         -- "you are standing next to it" (same building)
 local HERE_BONUS = 400        -- finish everything at this spot (turn in, then take the follow-ups) before walking on
 local STICKY_BONUS = 75      -- the current step keeps its place unless something is clearly better
 local MOVE_THRESHOLD = 12    -- yards moved before the route is re-scored

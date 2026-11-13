@@ -209,6 +209,19 @@ function O:Probe()
   else
     say("C_TooltipInfo: not available on this client")
   end
+  local map = C_Map.GetBestMapForUnit("player")
+  if C_QuestLog and C_QuestLog.GetQuestsOnMap and map then
+    local ok, list = pcall(C_QuestLog.GetQuestsOnMap, map)
+    say("quest map markers on this map:", ok and type(list) == "table" and #list or "error")
+    if ok and type(list) == "table" then
+      for i = 1, math.min(#list, 5) do
+        local q = list[i]
+        say("  quest", tostring(q.questID), string.format("%.1f, %.1f", (q.x or 0) * 100, (q.y or 0) * 100))
+      end
+    end
+  else
+    say("C_QuestLog.GetQuestsOnMap: not available on this client")
+  end
   if npc then
     local starts = LibQuestieDB.Npc.Get(npc, "questStarts") or {}
     local list = {}

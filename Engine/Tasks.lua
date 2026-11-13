@@ -245,6 +245,61 @@ auctionPoints = function()
   return auctions
 end
 
+-- The game's own map marker for a quest in your log, on the map you're on or the quest's
+-- zone. Only newer clients have it; nil otherwise.
+local function questMapPoint(questId)
+  if not (C_QuestLog and C_QuestLog.GetQuestsOnMap) then return nil end
+  local maps = {}
+  local here = LW.PlayerZoneMap()
+  if here then maps[#maps + 1] = here end
+  local e = LW.Index:Get(questId)
+  local zoneMap = e and e.zone and LW.Adapter:UiMap(e.zone)
+  if zoneMap and zoneMap ~= here then maps[#maps + 1] = zoneMap end
+  for _, map in ipairs(maps) do
+    local ok, list = pcall(C_QuestLog.GetQuestsOnMap, map)
+    if ok and type(list) == "table" then
+      for _, q in ipairs(list) do
+        if q.questID == questId and q.x and q.y and (q.x > 0 or q.y > 0) then
+          return { map = map, x = q.x, y = q.y }
+        end
+      end
+    end
+  end
+  return nil
+end
+
+-- "0/1 Attack Plan: Menethil Harbor destroyed" -> "Attack Plan: Menethil Harbor"
+local VERBS = { "destroyed", "slain", "killed", "collected", "used", "found", "explored", "burned", "placed",
+  "freed", "rescued", "activated", "investigated", "searched" }
+local function objectiveName(text)
+  text = (text or ""):gsub("^%s*%d+%s*/%s*%d+%s*", ""):gsub("%s*:%s*%d+%s*/%s*%d+%s*$", "")
+  for _, v in ipairs(VERBS) do
+    local stripped = text:gsub("%s+" .. v .. "$", "")
+    if stripped ~= text then return stripped end
+  end
+  return text
+end
+
+-- Objects or NPCs whose name is the objective's. The name index is built the first time it's
+-- needed, spread over frames (only possible inside the background job).
+local nameIndexReady = false
+local function objectiveByName(text)
+  local name = objectiveName(text)
+  if name == "" then return nil end
+  local co, isMain = coroutine.running()
+  if not nameIndexReady then
+    if not co or isMain then return nil end
+    for _, db in ipairs({ LibQuestieDB.Object, LibQuestieDB.Npc }) do
+      if db.BuildNameIndexAsync then pcall(db.BuildNameIndexAsync, 250) end
+    end
+    nameIndexReady = true
+  end
+  local objects = LibQuestieDB.Object.IdsByName and LibQuestieDB.Object.IdsByName(name)
+  local npcs = LibQuestieDB.Npc.IdsByName and LibQuestieDB.Npc.IdsByName(name)
+  if (objects and #objects > 0) or (npcs and #npcs > 0) then return { objects = objects, npcs = npcs } end
+  return nil
+end
+
 local function objectiveTasks(e, log, out)
   local objectives = LibQuestieDB.Quest.Get(e.id, "objectives") or {}
   local made = 0
@@ -330,15 +385,40 @@ local function objectiveTasks(e, log, out)
     made = made + 1
   end
   if made == 0 then
-    -- Nothing in the database says where the objectives are: point at whoever the quest is
-    -- handed in to (escorts and "talk to" quests usually happen around them), so the step
-    -- still has a place and gets routed instead of sinking to the bottom.
-    local line = log and log.objectives[1] and log.objectives[1].text
+    -- The database doesn't say where this quest's objectives are (common for Forever's own
+    -- quests). In order of trust:
+    --   1. the game's own map marker for the quest (newer clients, quests in your log)
+    --   2. an object or NPC whose name matches the objective ("Attack Plan: Menethil Harbor")
+    --   3. no objectives to do at all ("talk to" / escort quests): around the turn-in NPC
+    --   4. otherwise: no location. The step says so and doesn't compete with real steps.
+    local live = log and log.objectives or {}
+    local open
+    for _, o in ipairs(live) do if not o.finished then open = o break end end
+    local line = (open or live[1] or {}).text
+    local poi = questMapPoint(e.id)
+    if poi then
+      out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], function(p) p[1] = poi end,
+        { detail = line, sub = "poi" })
+      return
+    end
+    if open then
+      local found = objectiveByName(open.text)
+      if found then
+        out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], function(p)
+          for _, id in ipairs(found.objects or {}) do objPoints(p, id) end
+          for _, id in ipairs(found.npcs or {}) do npcPoints(p, id) end
+        end, { detail = line, sub = "name" })
+        return
+      end
+      out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], nil,
+        { detail = line, unknown = true, sub = "unknown" })
+      return
+    end
     local finishedBy = LibQuestieDB.Quest.Get(e.id, "finishedBy") or {}
     out[#out + 1] = newTask(e, "generic", L["Work on the objectives"], function(p)
       for _, id in ipairs(finishedBy[1] or {}) do npcPoints(p, id) end
       for _, id in ipairs(finishedBy[2] or {}) do objPoints(p, id) end
-    end, { detail = line, target = (whoNames(finishedBy[1], finishedBy[2])) })
+    end, { detail = line, sub = "giver", target = (whoNames(finishedBy[1], finishedBy[2])) })
   end
 
 end

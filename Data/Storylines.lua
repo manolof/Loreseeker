@@ -324,6 +324,51 @@ function LW.StorylineName(s)
   return questName or s.name
 end
 
+---------------------------------------------------------------------------------------------
+-- Announcements: tell the player once when a notable storyline becomes available.
+---------------------------------------------------------------------------------------------
+
+--- A curated chain's state for this character: "done", "available" (something to pick up or
+--- do now), "soon" (opens within `ahead` levels), or nil (later / locked).
+function S:ChainState(chain, ahead)
+  local E, level = LW.Eligibility, UnitLevel("player")
+  local any, allDone, soonest = false, true, nil
+  for _, e in ipairs(chain.members) do
+    local st = E:Status(e.id)
+    if st and st ~= "off" and st ~= "excluded" then
+      any = true
+      if st ~= "done" then allDone = false end
+      if st == "now" or st == "active" or st == "group" then return "available" end
+      if st == "later" then
+        local need = math.max(e.req or 0, E:Level(e, level) - LW.db.deferAt + 1)
+        if not soonest or need < soonest then soonest = need end
+      end
+    end
+  end
+  if any and allDone then return "done" end
+  if soonest and soonest - level <= (ahead or 3) then return "soon", soonest end
+  return nil
+end
+
+--- After each full refresh: announce storylines that became available. The very first time
+--- (fresh install) everything available is noted silently, so you don't get a flood.
+function S:Announce()
+  local seen = LW.char.announced
+  local first = not seen.__init
+  for _, chain in ipairs(LW.Chains.list) do
+    if chain.curated and not chain.part and not chain.curated.user then
+      local key = chain.root.id
+      if not seen[key] and self:ChainState(chain) == "available" then
+        seen[key] = true
+        if not first then
+          LW:Notify(string.format(LW.L["New storyline available: %s"], LW.Chains:Name(chain)))
+        end
+      end
+    end
+  end
+  seen.__init = true
+end
+
 --- Curated storyline for a quest entry, if any.
 function S:For(e)
   if not e then return nil end
